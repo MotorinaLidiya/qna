@@ -2,30 +2,25 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
-  let(:answer) { create(:answer, question: question) }
+  let(:answers) { create_list(:answer, 3, question: question) }
+  let(:answer) { answers.first }
 
   describe 'GET #show' do
     before { get :show, params: { id: answer } }
 
-    it 'renders show view' do
-      expect(response).to render_template :show
-    end
+    it { is_expected.to render_template(:show) }
   end
 
   describe 'GET #new' do
     before { get :new, params: { question_id: question } }
 
-    it 'renders new view' do
-      expect(response).to render_template :new
-    end
+    it { is_expected.to render_template(:new) }
   end
 
   describe 'GET #edit' do
     before { get :edit, params: { id: answer } }
 
-    it 'renders edit view' do
-      expect(response).to render_template :edit
-    end
+    it { is_expected.to render_template(:edit) }
   end
 
   describe 'POST #create' do
@@ -79,9 +74,7 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.body).to eq 'MyString'
       end
 
-      it 're-renders edit view' do
-        expect(response).to render_template :edit
-      end
+      it { is_expected.to render_template(:edit) }
     end
   end
 
