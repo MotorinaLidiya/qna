@@ -1,9 +1,9 @@
 class AnswersController < ApplicationController
   before_action :find_question, only: %i[new create]
 
-  def show ;end
+  def show; end
 
-  def new ;end
+  def new; end
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -15,7 +15,7 @@ class AnswersController < ApplicationController
     end
   end
 
-  def edit ;end
+  def edit; end
 
   def update
     if answer.update(answer_params)
