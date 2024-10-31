@@ -82,7 +82,7 @@ RSpec.describe AnswersController, type: :controller do
     let!(:answer) { create(:answer, question: question) }
 
     it 'deletes the answer' do
-      expect { delete :destroy, params: { id: answer} }.to change(Answer, :count).by(-1)
+      expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
     end
 
     it 'redirects to index' do
