@@ -7,6 +7,8 @@ class QuestionsController < ApplicationController
 
   def new; end
 
+  def edit; end
+
   def create
     @question = Question.new(question_params)
 
@@ -16,8 +18,6 @@ class QuestionsController < ApplicationController
       render :new
     end
   end
-
-  def edit; end
 
   def update
     if question.update(question_params)
