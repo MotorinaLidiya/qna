@@ -1,33 +1,38 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
   before_action :find_question, only: %i[new create]
-
-  def show; end
-
-  def new; end
-
-  def edit; end
 
   def create
     @answer = @question.answers.new(answer_params)
+    @answer.author = current_user
 
     if @answer.save
-      redirect_to @question
+      redirect_to @question, notice: 'Your answer was successfully created.'
     else
-      render :new
+      @answers = @question.answers.includes(:author).order(:created_at)
+      render 'questions/show'
     end
+  end
+
+  def edit
+    @answer = answer
   end
 
   def update
     if answer.update(answer_params)
-      redirect_to @answer
+      redirect_to @answer.question, notice: 'Answer was successfully updated.'
     else
       render :edit
     end
   end
 
   def destroy
-    answer.destroy
-    redirect_to @answer.question
+    if answer.author == current_user
+      answer.destroy
+      redirect_to @answer.question, notice: 'Answer was successfully deleted.'
+    else
+      redirect_to @answer.question, alert: 'You have no rights to perform this action.'
+    end
   end
 
   private
@@ -37,7 +42,7 @@ class AnswersController < ApplicationController
   end
 
   def answer
-    @answer ||= params[:id] ? Answer.find(params[:id]) : Answer.new(question: @question)
+    @answer = Answer.find(params[:id])
   end
 
   helper_method :answer

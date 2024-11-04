@@ -1,0 +1,19 @@
+= render 'shared/errors', resource: @answer
+
+h1= @question.title
+p= @question.body
+
+h2 Answers
+
+- if @answers&.any?
+  = render @answers
+- else
+  p No answers yet.
+
+h3 Write an Answer:
+
+= form_with model: [@question, @answer], local: true do |f|
+  .form-group
+    = f.label :body
+    = f.text_area :body, class: 'form-control'
+  = f.submit 'Submit Answer', class: 'btn btn-success'

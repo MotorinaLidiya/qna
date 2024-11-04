@@ -1,0 +1,4 @@
+.div.answer
+  p= answer.author.email
+  p= answer.body
+  p.em Posted at: #{answer.created_at.strftime("%d %B %Y, %H:%M")}

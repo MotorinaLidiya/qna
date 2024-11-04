@@ -1,19 +1,30 @@
 class QuestionsController < ApplicationController
+  before_action :authenticate_user!, except: %i[index show]
+
   def index
-    @questions = Question.all
+    @questions = Question.includes(:author, :answers)
   end
 
-  def show; end
+  def show
+    @question = question
+    @answers = @question.answers.includes(:author).order(:created_at)
+    @answer = Answer.new
+  end
 
-  def new; end
+  def new
+    @question = question
+  end
 
-  def edit; end
+  def edit
+    @question = question
+  end
 
   def create
     @question = Question.new(question_params)
+    @question.author = current_user
 
     if @question.save
-      redirect_to @question
+      redirect_to @question, notice: 'Your question was successfully created.'
     else
       render :new
     end
@@ -21,15 +32,19 @@ class QuestionsController < ApplicationController
 
   def update
     if question.update(question_params)
-      redirect_to @question
+      redirect_to @question, notice: 'Your question was successfully updated.'
     else
       render :edit
     end
   end
 
   def destroy
-    question.destroy
-    redirect_to question_path
+    if question.author == current_user
+      question.destroy
+      redirect_to questions_path, notice: 'Question was successfully deleted.'
+    else
+      redirect_to question_path, alert: 'You have no rights to perform this action.'
+    end
   end
 
   private

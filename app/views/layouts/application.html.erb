@@ -9,15 +9,24 @@
 
     <%= yield :head %>
 
-    <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
+    <%= javascript_pack_tag %>
   </head>
 
   <body>
+    <header>
+      <nav>
+        <% if user_signed_in? %>
+          <%= button_to 'Log out', destroy_user_session_path, method: :delete, class: 'btn btn-danger' %>
+        <% end %>
+      </nav>
+    </header>
+
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
     <%= yield %>
   </body>
 </html>
