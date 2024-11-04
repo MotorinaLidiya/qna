@@ -63,4 +63,4 @@ group :test do
   gem 'shoulda-matchers'
 end
 
-gem "webpacker", "~> 5.4"
+gem 'webpacker', '~> 5.4'

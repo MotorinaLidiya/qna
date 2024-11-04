@@ -5,7 +5,6 @@ feature 'User can look through all questions', '
   Any user
   Is able to see questions list
 ' do
-
   describe 'Any user' do
     given!(:questions) { create_list(:question, 3) }
 

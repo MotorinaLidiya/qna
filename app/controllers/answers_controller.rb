@@ -1,6 +1,10 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_question, only: %i[new create]
+  before_action :find_question, only: %i[create]
+
+  def edit
+    @answer = answer
+  end
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -12,10 +16,6 @@ class AnswersController < ApplicationController
       @answers = @question.answers.includes(:author).order(:created_at)
       render 'questions/show'
     end
-  end
-
-  def edit
-    @answer = answer
   end
 
   def update

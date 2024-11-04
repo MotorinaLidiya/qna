@@ -25,6 +25,9 @@ Style/ZeroLengthPredicate:
 Style/ClassAndModuleChildren:
   Enabled: false
 
+Rails/I18nLocaleTexts:
+  Enabled: false
+
 Layout/LineLength:
   Max: 150
 
