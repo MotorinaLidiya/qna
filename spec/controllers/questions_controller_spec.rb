@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+  let(:user) { create(:user) }
   let(:question) { create(:question) }
 
   describe 'GET #index' do
-    let(:questions) { create_list(:question, 3) }
+    let!(:questions) { create_list(:question, 3) }
     before { get :index }
 
     it 'populates an array of all questions' do
@@ -25,6 +26,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
+    before { login(user) }
     before { get :new }
 
     it 'renders new view' do
@@ -33,6 +35,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
+    before { login(user) }
     before { get :edit, params: { id: question } }
 
     it 'renders edit view' do
@@ -41,6 +44,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    before { login(user) }
     context 'with valid attributes' do
       it 'saves a new question in the database' do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
@@ -65,6 +69,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    before { login(user) }
     context 'with valid attributes' do
       it 'assigns the requested question to @question' do
         patch :update, params: { id: question, question: attributes_for(:question) }
@@ -99,15 +104,34 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:question) { create(:question) }
+    let(:second_user) { create(:user) }
+    let!(:question) { create(:question, author: user) }
 
-    it 'deletes the question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+    context 'author of the question' do
+      before { login(user) }
+      it 'deletes the question' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+
+      it 'redirects to index' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+        expect(flash[:notice]).to eq 'Question was successfully deleted.'
+      end
     end
 
-    it 'redirects to index' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to question_path
+    context 'not the author of the question' do
+      before { login(second_user) }
+
+      it 'does not delete the question' do
+        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+      end
+
+      it 'redirects to index with alert' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to question_path
+        expect(flash[:alert]).to eq 'You have no rights to perform this action.'
+      end
     end
   end
 end
