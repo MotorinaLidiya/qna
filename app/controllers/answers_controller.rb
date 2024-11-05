@@ -3,7 +3,7 @@ class AnswersController < ApplicationController
   before_action :find_question, only: %i[create]
 
   def edit
-    @answer = answer
+    answer
   end
 
   def create

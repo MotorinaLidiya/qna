@@ -12,11 +12,11 @@ class QuestionsController < ApplicationController
   end
 
   def new
-    @question = question
+    question
   end
 
   def edit
-    @question = question
+    question
   end
 
   def create
