@@ -1,21 +1,10 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_question, only: %i[create]
-
-  def edit
-    answer
-  end
 
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.author = current_user
+    @question = Question.find(params[:question_id])
+    @answer = @question.answers.create(author: current_user, **answer_params)
 
-    if @answer.save
-      redirect_to @question, notice: 'Your answer was successfully created.'
-    else
-      @answers = @question.answers.includes(:author).order(:created_at)
-      render 'questions/show'
-    end
   end
 
   def update
@@ -36,10 +25,6 @@ class AnswersController < ApplicationController
   end
 
   private
-
-  def find_question
-    @question = Question.find(params[:question_id])
-  end
 
   def answer
     @answer = Answer.find(params[:id])

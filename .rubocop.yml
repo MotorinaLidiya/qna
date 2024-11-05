@@ -38,3 +38,4 @@ Metrics/BlockLength:
   Enabled: true
   Exclude:
     - 'spec/controllers/**/*_spec.rb'
+    - 'spec/features/**/*_spec.rb'
