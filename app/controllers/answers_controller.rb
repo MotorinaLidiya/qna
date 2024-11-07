@@ -8,16 +8,11 @@ class AnswersController < ApplicationController
 
   def update
     @question = answer.question
-    @answer.update(answer_params)
+    answer.update(answer_params)
   end
 
   def destroy
-    if answer.author == current_user
-      answer.destroy
-      redirect_to @answer.question, notice: 'Answer was successfully deleted.'
-    else
-      redirect_to @answer.question, alert: 'You have no rights to perform this action.'
-    end
+    answer.destroy if answer.author == current_user
   end
 
   private

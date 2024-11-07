@@ -45,7 +45,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'renders update template' do
-        patch :update, params: { id: answer, answer: { body: 'new body'} }, format: :js
+        patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
         expect(response).to render_template :update
       end
     end
@@ -71,13 +71,12 @@ RSpec.describe AnswersController, type: :controller do
     context 'author of the answer' do
       before { login(user) }
       it 'deletes the answer' do
-        expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirects to index' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to question
-        expect(flash[:notice]).to eq 'Answer was successfully deleted.'
+      it 'renders destroy template' do
+        delete :destroy, params: { id: answer }, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
@@ -85,13 +84,12 @@ RSpec.describe AnswersController, type: :controller do
       before { login(second_user) }
 
       it 'does not delete the answer' do
-        expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+        expect { delete :destroy, params: { id: answer, author: user }, format: :js }.to_not change(Answer, :count)
       end
 
-      it 'redirects to index with alert' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to question
-        expect(flash[:alert]).to eq 'You have no rights to perform this action.'
+      it 'renders destroy template' do
+        delete :destroy, params: { id: answer }, format: :js
+        expect(response).to render_template :destroy
       end
     end
   end

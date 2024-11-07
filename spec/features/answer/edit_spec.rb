@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-feature 'User can edit his answer', %q{
+feature 'User can edit his answer', "
   In order to correct mistakes
   As an author of answer
   I'd like to be able to edit my answer
-} do
+" do
   given(:user) { create(:user) }
   given(:another_user) { create(:user) }
   given(:question) { create(:question) }
@@ -19,7 +19,7 @@ feature 'User can edit his answer', %q{
     scenario 'edits his answer' do
       within "#answer_#{answer.id}", visible: false do
         click_on 'Edit'
-        fill_in 'Your answer',  with: 'Edited Answer'
+        fill_in 'Your answer', with: 'Edited Answer'
         click_on 'Save'
 
         expect(page).to_not have_content answer.body
@@ -32,7 +32,7 @@ feature 'User can edit his answer', %q{
       within "#answer_#{answer.id}", visible: false do
         click_on 'Edit'
 
-        fill_in 'Your answer',  with: ''
+        fill_in 'Your answer', with: ''
         click_on 'Save'
         expect(page).to have_content "Body can't be blank"
       end

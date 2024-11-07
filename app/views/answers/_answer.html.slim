@@ -5,6 +5,7 @@ div id="answer_#{answer.id}"
 
   - if user_signed_in? && answer.author == current_user
     p = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id:  answer.id }
+    p = link_to 'Delete', answer_path(answer), remote: true, class: "delete-answer-link delete-#{answer.id}", method: :delete
 
   div id="answer-edit-errors_#{answer.id}"
     = render 'shared/errors', resource: answer
