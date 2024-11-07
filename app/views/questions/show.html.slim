@@ -1,9 +1,12 @@
 .questions
-  = render partial: "question", locals: { question: @question }
+  = render @question
 
 h2 Answers
 .answers
-  = render @answers
+  - @answers.each do |answer|
+    - if answer.best
+      h3 Best answer:
+    = render answer
 
 h3 Write an Answer:
 .answer-errors

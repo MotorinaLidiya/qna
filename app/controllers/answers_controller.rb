@@ -15,10 +15,15 @@ class AnswersController < ApplicationController
     answer.destroy if answer.author == current_user
   end
 
+  def make_best
+    answer.mark_as_best
+    @answers = answer.question.answers.sort_by_best
+  end
+
   private
 
   def answer
-    @answer = Answer.find(params[:id])
+    @answer ||= Answer.find(params[:id])
   end
 
   helper_method :answer

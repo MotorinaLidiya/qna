@@ -6,7 +6,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answers = question.answers.includes(:author).order(:created_at)
+    @answers = question.answers.includes(:author).sort_by_best
     @answer = Answer.new
   end
 
