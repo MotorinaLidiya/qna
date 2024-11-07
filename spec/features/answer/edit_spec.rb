@@ -39,7 +39,7 @@ feature 'User can edit his answer', "
     end
   end
 
-  scenario "Authenticated user tries to edit other user's question" do
+  scenario "Authenticated user tries to edit other user's answer" do
     sign_in(another_user)
 
     visit question_path(question)

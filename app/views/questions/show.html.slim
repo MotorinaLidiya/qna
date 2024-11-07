@@ -1,5 +1,5 @@
-h1= @question.title
-p= @question.body
+.questions
+  = render partial: "question", locals: { question: @question }
 
 h2 Answers
 .answers

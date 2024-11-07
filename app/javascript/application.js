@@ -4,6 +4,7 @@ import * as ActiveStorage from "@rails/activestorage"
 import 'bootstrap'
 
 import './utilities/answers'
+import './utilities/questions'
 import "../assets/stylesheets/application.scss";
 
 Rails.start()
