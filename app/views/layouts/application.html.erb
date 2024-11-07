@@ -17,13 +17,9 @@
   </head>
 
   <body>
-    <header>
-      <nav>
-        <% if user_signed_in? %>
-          <%= button_to 'Log out', destroy_user_session_path, method: :delete, class: 'btn btn-danger' %>
-        <% end %>
-      </nav>
-    </header>
+    <div>
+      <%= render 'shared/nav' %>
+    </div>
 
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>

@@ -4,15 +4,11 @@ class AnswersController < ApplicationController
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.create(author: current_user, **answer_params)
-
   end
 
   def update
-    if answer.update(answer_params)
-      redirect_to @answer.question, notice: 'Answer was successfully updated.'
-    else
-      render :edit
-    end
+    @question = answer.question
+    @answer.update(answer_params)
   end
 
   def destroy

@@ -8,8 +8,8 @@ h2 Answers
 h3 Write an Answer:
 .answer-errors
   = render 'shared/errors', resource: @answer
-= form_with model: [@question, @answer], local: false do |f|
+= form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
   .form-group
     = f.label :body
-    = f.text_area :body, class: 'form-control'
+    = f.text_area :body, class: 'form-control', id: 'answer_body'
   = f.submit 'Submit Answer', class: 'btn btn-success'

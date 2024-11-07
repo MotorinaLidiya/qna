@@ -1,4 +1,14 @@
-.div.answer
+div id="answer_#{answer.id}"
   p= answer.author.email
   p= answer.body
   p.em Posted at: #{answer.created_at.strftime("%d %B %Y, %H:%M")}
+
+  - if user_signed_in? && answer.author == current_user
+    p = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id:  answer.id }
+
+  div id="answer-edit-errors_#{answer.id}"
+    = render 'shared/errors', resource: answer
+  = form_with model: answer, local: false, class: 'd-none', html: { id: "edit-answer-#{answer.id}" } do |f|
+    = f.label :body, 'Your answer'
+    = f.text_area :body
+    = f.submit 'Save'

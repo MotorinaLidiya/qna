@@ -15,7 +15,7 @@ RSpec.describe AnswersController, type: :controller do
         end.to change(Answer, :count).by(1)
       end
 
-      it 'redirects to question show view' do
+      it 'renders create template' do
         post :create, params: { answer: attributes_for(:answer), question_id: question }, format: :js
         expect(response).to render_template :create
       end
@@ -28,44 +28,41 @@ RSpec.describe AnswersController, type: :controller do
         end.to_not change(Answer, :count)
       end
 
-      it 're-renders new view' do
+      it 'renders create template' do
         post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question }, format: :js
         expect(response).to render_template :create
       end
     end
   end
 
-  # describe 'PATCH #update' do
-  #   before { login(user) }
-  #   context 'with valid attributes' do
-  #     it 'assigns the requested answer to @answer' do
-  #       patch :update, params: { id: answer, answer: attributes_for(:answer) }
-  #       expect(assigns(:answer)).to eq answer
-  #     end
-  #
-  #     it 'changes answer attributes' do
-  #       patch :update, params: { id: answer, answer: { body: 'new body' } }
-  #       answer.reload
-  #       expect(answer.body).to eq 'new body'
-  #     end
-  #
-  #     it 'redirects to question show view' do
-  #       post :create, params: { answer: attributes_for(:answer), question_id: question }
-  #       expect(response).to redirect_to assigns(:question)
-  #     end
-  #   end
-  #
-  #   context 'with invalid attributes' do
-  #     before { patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) } }
-  #
-  #     it 'does not change answer' do
-  #       answer.reload
-  #       expect(answer.body).to eq 'MyString'
-  #     end
-  #
-  #     it { is_expected.to render_template(:edit) }
-  #   end
-  # end
+  describe 'PATCH #update' do
+    before { login(user) }
+    context 'with valid attributes' do
+      it 'changes answer attributes' do
+        patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
+        answer.reload
+        expect(answer.body).to eq 'new body'
+      end
+
+      it 'renders update template' do
+        patch :update, params: { id: answer, answer: { body: 'new body'} }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'with invalid attributes' do
+      before { patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js }
+
+      it 'does not change answer attributes' do
+        answer.reload
+        expect(answer.body).to eq 'MyString'
+      end
+
+      it 'renders update template' do
+        expect(response).to render_template :update
+      end
+    end
+  end
 
   describe 'DELETE #destroy' do
     let(:second_user) { create(:user) }

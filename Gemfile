@@ -33,6 +33,14 @@ gem 'slim-rails'
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+# Use SCSS for stylesheets
+gem 'sass-rails', '>= 6'
+
+gem 'jquery-rails'
+gem 'webpacker', '~> 5.4'
+# UI
+gem 'bootstrap', '~> 5.3.3'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mswin mswin64 mingw x64_mingw], require: 'debug/prelude'
@@ -60,6 +68,3 @@ group :test do
   gem 'rails-controller-testing'
   gem 'shoulda-matchers'
 end
-
-gem 'jquery-rails'
-gem 'webpacker', '~> 5.4'
