@@ -6,29 +6,26 @@ feature 'User can create answer', "
   I'd like to be able to give an answer
 " do
   given(:user) { create(:user) }
-  given(:question) { create(:question) }
+  given!(:question) { create(:question) }
 
-  describe 'Authenticated user', js: true do
-    background do
-      sign_in(user)
+  describe 'Authenticated user' do
+    background(:each) { sign_in(user) }
+
+    scenario 'gives an answer', js: true do
       visit question_path(question)
+      fill_in 'answer[body]', with: 'Answer text'
+      click_button 'Submit Answer'
+
+      element = find(".answers")
+      expect(element).to have_content 'Answer text'
     end
 
-    scenario 'gives an answer' do
-      fill_in 'Body', with: 'Answer text'
-      click_on 'Submit Answer'
+    scenario 'asks an answer with errors', js: true do
+      visit question_path(question)
+      click_button 'Submit Answer'
 
-      expect(page).to have_content 'Answer text'
-
-      expect(current_path).to eq question_path(question)
-      within '.answers' do
-        expect(page).to have_content 'Answer text'
-      end
-    end
-
-    scenario 'asks an answer with errors' do
-      click_on 'Submit Answer'
-      expect(page).to have_content "Body can't be blank"
+      element = find(".answer-errors")
+      expect(element).to have_content "Body can't be blank"
     end
   end
 

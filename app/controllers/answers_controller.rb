@@ -17,7 +17,8 @@ class AnswersController < ApplicationController
 
   def make_best
     answer.mark_as_best
-    @answers = answer.question.answers.sort_by_best
+    @question = answer.question
+    @answers = @question.answers.sort_by_best
   end
 
   private

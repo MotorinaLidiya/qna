@@ -7,14 +7,14 @@ feature 'User can edit his question', "
 " do
   given(:user) { create(:user) }
   given(:another_user) { create(:user) }
-  given!(:question) { create(:question) }
+  given!(:question) { create(:question, author: user) }
 
   describe 'Authenticated user', js: true do
     background do
       sign_in(user)
       visit question_path(question)
 
-      expect(page).to have_css('.edit-question-link', wait: 5)
+      expect(page).to have_css('.edit-question-link')
       find('.edit-question-link').click
     end
 
@@ -22,7 +22,7 @@ feature 'User can edit his question', "
       within "#question#{question.id}" do
         fill_in 'Your question', with: 'Edited title'
         fill_in 'Add description', with: 'Edited body'
-        click_on 'Save'
+        click_on 'Submit Question'
 
         expect(page).to_not have_content question.body
         expect(page).to have_no_content question.title
@@ -34,11 +34,9 @@ feature 'User can edit his question', "
 
     scenario 'edits his question with errors' do
       within "#question#{question.id}" do
-        click_on 'Edit'
-
         fill_in 'Your question', with: ''
         fill_in 'Add description', with: ''
-        click_on 'Save'
+        click_on 'Submit Question'
 
         expect(page).to have_content "Title can't be blank"
         expect(page).to have_content "Body can't be blank"

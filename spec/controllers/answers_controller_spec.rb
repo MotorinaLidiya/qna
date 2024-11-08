@@ -64,6 +64,8 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'PATCH #make_best'
+
   describe 'DELETE #destroy' do
     let(:second_user) { create(:user) }
     let!(:answer) { create(:answer, question: question, author: user) }
