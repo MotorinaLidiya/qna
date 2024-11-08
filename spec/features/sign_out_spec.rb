@@ -9,8 +9,8 @@ feature 'User can sign out', '
   background { sign_in(user) }
 
   scenario 'Authenticated user tries to log out' do
-    expect(page).to have_button 'Log out'
-    click_on 'Log out'
+    expect(page).to have_button 'Log Out'
+    click_on 'Log Out'
 
     expect(page).to have_content 'Signed out successfully'
   end

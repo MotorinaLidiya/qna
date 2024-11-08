@@ -1,19 +1,18 @@
-= render 'shared/errors', resource: @answer
-
-h1= @question.title
-p= @question.body
+.questions
+  = render @question
 
 h2 Answers
-
-- if @answers&.any?
-  = render @answers
-- else
-  p No answers yet.
+.answers
+  - @answers.each do |answer|
+    - if answer.best
+      h3 Best answer:
+    = render answer
 
 h3 Write an Answer:
-
-= form_with model: [@question, @answer], local: true do |f|
+.answer-errors
+  = render 'shared/errors', resource: @answer
+= form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
   .form-group
     = f.label :body
-    = f.text_area :body, class: 'form-control'
+    = f.text_area :body, class: 'form-control', id: 'answer_body'
   = f.submit 'Submit Answer', class: 'btn btn-success'

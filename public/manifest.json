@@ -1,0 +1,44 @@
+{
+  "application.js": "/js/application-462f607a3d6b9eb7c3ce.js",
+  "application.js.map": "/js/application-462f607a3d6b9eb7c3ce.js.map",
+  "controllers/application.js": "/js/controllers/application-27a8b3578715b3fa21d5.js",
+  "controllers/application.js.map": "/js/controllers/application-27a8b3578715b3fa21d5.js.map",
+  "controllers/hello_controller.js": "/js/controllers/hello_controller-4d726c30436d215ae34b.js",
+  "controllers/hello_controller.js.map": "/js/controllers/hello_controller-4d726c30436d215ae34b.js.map",
+  "controllers/index.js": "/js/controllers/index-8bbb1464bb1c239b602e.js",
+  "controllers/index.js.map": "/js/controllers/index-8bbb1464bb1c239b602e.js.map",
+  "entrypoints": {
+    "application": {
+      "js": [
+        "/js/application-462f607a3d6b9eb7c3ce.js"
+      ],
+      "js.map": [
+        "/js/application-462f607a3d6b9eb7c3ce.js.map"
+      ]
+    },
+    "controllers/application": {
+      "js": [
+        "/js/controllers/application-27a8b3578715b3fa21d5.js"
+      ],
+      "js.map": [
+        "/js/controllers/application-27a8b3578715b3fa21d5.js.map"
+      ]
+    },
+    "controllers/hello_controller": {
+      "js": [
+        "/js/controllers/hello_controller-4d726c30436d215ae34b.js"
+      ],
+      "js.map": [
+        "/js/controllers/hello_controller-4d726c30436d215ae34b.js.map"
+      ]
+    },
+    "controllers/index": {
+      "js": [
+        "/js/controllers/index-8bbb1464bb1c239b602e.js"
+      ],
+      "js.map": [
+        "/js/controllers/index-8bbb1464bb1c239b602e.js.map"
+      ]
+    }
+  }
+}

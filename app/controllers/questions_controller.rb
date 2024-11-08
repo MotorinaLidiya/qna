@@ -6,8 +6,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = question
-    @answers = @question.answers.includes(:author).order(:created_at)
+    @answers = question.answers.includes(:author).sort_by_best
     @answer = Answer.new
   end
 
@@ -31,11 +30,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if question.update(question_params)
-      redirect_to @question, notice: 'Your question was successfully updated.'
-    else
-      render :edit
-    end
+    question.update(question_params)
   end
 
   def destroy

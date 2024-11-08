@@ -13,17 +13,13 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_pack_tag %>
+    <%= javascript_pack_tag "application", "data-turbo-track": "reload" %>
   </head>
 
   <body>
-    <header>
-      <nav>
-        <% if user_signed_in? %>
-          <%= button_to 'Log out', destroy_user_session_path, method: :delete, class: 'btn btn-danger' %>
-        <% end %>
-      </nav>
-    </header>
+    <div>
+      <%= render 'shared/nav' %>
+    </div>
 
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
