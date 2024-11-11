@@ -79,7 +79,7 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer_second.reload).not_to be_best
       end
 
-      it 'renders make_best template'do
+      it 'renders make_best template' do
         expect(response).to render_template :make_best
       end
     end
@@ -94,7 +94,7 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer_second.reload).not_to be_best
       end
 
-      it 'renders make_best template'do
+      it 'renders make_best template' do
         expect(response).to render_template :make_best
       end
     end

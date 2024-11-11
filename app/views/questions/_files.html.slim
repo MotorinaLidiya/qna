@@ -1,0 +1,5 @@
+- if @question.files.attached?
+  .files-list
+  - @question.files.each do |file|
+    .file
+    = link_to file.filename.to_s, url_for(file), target: "_blank"

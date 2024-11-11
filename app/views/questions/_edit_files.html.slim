@@ -1,0 +1,7 @@
+- if @question.files.attached?
+  .edit-files-list
+  - @question.files.each do |file|
+    .edit-file
+    = link_to file.filename.to_s, url_for(file), target: "_blank"
+    = check_box_tag "remove_files[]", file.id, false, id: "remove_files_#{file.id}"
+    = label_tag "remove_files_#{file.id}", 'Remove'

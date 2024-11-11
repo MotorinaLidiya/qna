@@ -30,7 +30,13 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    question.update(question_params)
+    question.remove_files(params[:remove_files]) if params[:remove_files].present?
+
+    if question.update(question_params.except(:files))
+      question.files.attach(question_params[:files]) if question_params[:files].present?
+    end
+
+    @question.reload
   end
 
   def destroy
@@ -45,12 +51,12 @@ class QuestionsController < ApplicationController
   private
 
   def question
-    @question ||= params[:id] ? Question.find(params[:id]) : Question.new
+    @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
   end
 
   helper_method :question
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, files: [])
   end
 end

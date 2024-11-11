@@ -16,7 +16,7 @@ feature 'User can create answer', "
       fill_in 'answer[body]', with: 'Answer text'
       click_button 'Submit Answer'
 
-      element = find(".answers")
+      element = find('.answers')
       expect(element).to have_content 'Answer text'
     end
 
@@ -24,7 +24,7 @@ feature 'User can create answer', "
       visit question_path(question)
       click_button 'Submit Answer'
 
-      element = find(".answer-errors")
+      element = find('.answer-errors')
       expect(element).to have_content "Body can't be blank"
     end
   end

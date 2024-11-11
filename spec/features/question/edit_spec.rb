@@ -42,6 +42,20 @@ feature 'User can edit his question', "
         expect(page).to have_content "Body can't be blank"
       end
     end
+
+    scenario 'loads file into his question and deletes attached file' do
+      within "#question#{question.id}" do
+        attach_file 'Add file', Rails.root.join('spec/rails_helper.rb')
+        click_on 'Submit Question'
+        expect(page).to have_link 'rails_helper.rb'
+
+        find('.edit-question-link').click
+        check "remove_files_#{question.files.first.id}"
+        click_on 'Submit Question'
+        save_and_open_page
+        expect(page).to_not have_link 'rails_helper.rb'
+      end
+    end
   end
 
   scenario "Authenticated user tries to edit other user's question" do
