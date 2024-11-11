@@ -16,8 +16,9 @@ class AnswersController < ApplicationController
   end
 
   def make_best
-    answer.mark_as_best
     @question = answer.question
+    return unless @question.author == current_user
+    answer.mark_as_best
     @answers = @question.answers.sort_by_best
   end
 
