@@ -8,13 +8,13 @@ feature 'User can create answer', "
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background do
       sign_in(user)
       visit question_path(question)
     end
 
-    scenario 'gives an answer', js: true do
+    scenario 'gives an answer' do
       fill_in 'answer[body]', with: 'Answer text'
       click_button 'Submit Answer'
 
@@ -22,7 +22,7 @@ feature 'User can create answer', "
       expect(element).to have_content 'Answer text'
     end
 
-    scenario 'gives an answer with errors', js: true do
+    scenario 'gives an answer with errors' do
       click_button 'Submit Answer'
 
       element = find('.answer-errors')
@@ -31,7 +31,7 @@ feature 'User can create answer', "
 
     scenario 'gives an answer with attached file' do
       fill_in 'answer[body]', with: 'Answer text'
-      attach_file 'File', [Rails.root.join('spec/rails_helper.rb'), Rails.root.join('spec/spec_helper.rb')]
+      attach_file 'Files', [Rails.root.join('spec/rails_helper.rb'), Rails.root.join('spec/spec_helper.rb')]
       click_button 'Submit Answer'
 
       expect(page).to have_link 'rails_helper.rb'
