@@ -52,7 +52,6 @@ feature 'User can edit his question', "
         find('.edit-question-link').click
         check "remove_files_#{question.files.first.id}"
         click_on 'Submit Question'
-        save_and_open_page
         expect(page).to_not have_link 'rails_helper.rb'
       end
     end

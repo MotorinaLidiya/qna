@@ -5,6 +5,8 @@ div id="answer_#{answer.id}"
   b= answer.author.email
   p.em Posted at: #{answer.created_at.strftime("%d %B %Y, %H:%M")}
   p= answer.body
+  = render 'answers/files', answer: answer
+
   - if user_signed_in?
     - if answer.author == current_user
       p = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id:  answer.id }
@@ -15,6 +17,11 @@ div id="answer_#{answer.id}"
   div id="answer-edit-errors_#{answer.id}"
     = render 'shared/errors', resource: answer
   = form_with model: answer, local: false, class: 'd-none', html: { id: "edit-answer-#{answer.id}" } do |f|
+    p
     = f.label :body, 'Your answer'
     = f.text_area :body
+    p
+      = f.label :files, 'Add file'
+      = f.file_field :files, multiple: true
+      = render 'answers/edit_files', answer: answer
     = f.submit 'Save'

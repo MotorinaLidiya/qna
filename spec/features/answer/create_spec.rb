@@ -9,10 +9,12 @@ feature 'User can create answer', "
   given!(:question) { create(:question) }
 
   describe 'Authenticated user' do
-    background(:each) { sign_in(user) }
+    background do
+      sign_in(user)
+      visit question_path(question)
+    end
 
     scenario 'gives an answer', js: true do
-      visit question_path(question)
       fill_in 'answer[body]', with: 'Answer text'
       click_button 'Submit Answer'
 
@@ -20,12 +22,20 @@ feature 'User can create answer', "
       expect(element).to have_content 'Answer text'
     end
 
-    scenario 'asks an answer with errors', js: true do
-      visit question_path(question)
+    scenario 'gives an answer with errors', js: true do
       click_button 'Submit Answer'
 
       element = find('.answer-errors')
       expect(element).to have_content "Body can't be blank"
+    end
+
+    scenario 'gives an answer with attached file' do
+      fill_in 'answer[body]', with: 'Answer text'
+      attach_file 'File', [Rails.root.join('spec/rails_helper.rb'), Rails.root.join('spec/spec_helper.rb')]
+      click_button 'Submit Answer'
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
     end
   end
 

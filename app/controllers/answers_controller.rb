@@ -8,7 +8,9 @@ class AnswersController < ApplicationController
 
   def update
     @question = answer.question
-    answer.update(answer_params)
+    remove_files if params[:remove_files].present?
+    update_answer
+    @answer.reload
   end
 
   def destroy
@@ -26,12 +28,21 @@ class AnswersController < ApplicationController
   private
 
   def answer
-    @answer ||= Answer.find(params[:id])
+    @answer ||= Answer.with_attached_files.find(params[:id])
   end
 
   helper_method :answer
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, files: [])
+  end
+
+  def remove_files
+    answer.remove_files(params[:remove_files])
+  end
+
+  def update_answer
+    answer_is_valid = answer.update(answer_params.except(:files))
+    answer.files.attach(answer_params[:files]) if answer_is_valid && answer_params[:files].present?
   end
 end
