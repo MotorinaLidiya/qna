@@ -18,7 +18,7 @@ div id="question#{@question.id}"
       = f.text_area :body, id: 'question_body'
       p
         = f.label :files, 'Add file'
-        = f.file_field :files, multiple: true
+        = f.file_field :files, multiple: true, direct_upload: true
         = render 'questions/edit_files'
       p
       = f.submit 'Submit Question'
