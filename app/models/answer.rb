@@ -17,12 +17,4 @@ class Answer < ApplicationRecord
       update(best: true)
     end
   end
-
-  def remove_files(file_ids)
-    return if file_ids.blank?
-
-    file_ids.each do |file_id|
-      files.find_by(id: file_id)&.purge
-    end
-  end
 end

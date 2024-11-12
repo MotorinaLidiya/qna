@@ -10,8 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const answerId = clickedObject.dataset.answerId
                 $(clickedObject).hide()
                 $(`form#edit-answer-${answerId}`).removeClass('d-none')
-                const checkboxes = $(`#edit-answer-${answerId} input[type="checkbox"]`)
-                checkboxes.prop('checked', false)
             }
         })
     }

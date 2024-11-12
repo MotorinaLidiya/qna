@@ -30,8 +30,9 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    remove_files if params[:remove_files].present?
-    update_question
+    if question.update(question_params.except(:files)) && params[:question][:files].present?
+      @question.files.attach(params[:question][:files])
+    end
     @question.reload
   end
 
@@ -54,14 +55,5 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body, files: [])
-  end
-
-  def remove_files
-    question.remove_files(params[:remove_files])
-  end
-
-  def update_question
-    question_is_valid = question.update(question_params.except(:files))
-    question.files.attach(question_params[:files]) if question_is_valid && question_params[:files].present?
   end
 end

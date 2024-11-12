@@ -50,9 +50,23 @@ feature 'User can edit his question', "
         expect(page).to have_link 'rails_helper.rb'
 
         find('.edit-question-link').click
-        check "remove_files_#{question.files.first.id}"
+        click_link 'Remove'
         click_on 'Submit Question'
         expect(page).to_not have_link 'rails_helper.rb'
+      end
+    end
+
+    scenario 'can load files a few times' do
+      within "#question#{question.id}" do
+        attach_file 'Add file', Rails.root.join('spec/rails_helper.rb')
+        click_on 'Submit Question'
+        expect(page).to have_link 'rails_helper.rb'
+
+        find('.edit-question-link').click
+        attach_file 'Add file', Rails.root.join('spec/spec_helper.rb')
+        click_on 'Submit Question'
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
       end
     end
   end

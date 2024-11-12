@@ -1,7 +1,7 @@
 div id="question#{@question.id}"
   h1= @question.title
   p= @question.body
-  = render 'questions/files'
+  = render 'shared/attachments', resource: @question
 
   - if user_signed_in? && @question.author == current_user
     p = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id:  @question.id }
@@ -19,6 +19,6 @@ div id="question#{@question.id}"
       p
         = f.label :files, 'Add file'
         = f.file_field :files, multiple: true, direct_upload: true
-        = render 'questions/edit_files'
+        = render 'shared/attachments', resource: @question, edit_mode: true
       p
       = f.submit 'Submit Question'
