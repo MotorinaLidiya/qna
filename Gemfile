@@ -41,6 +41,11 @@ gem 'webpacker', '~> 5.4'
 # UI
 gem 'bootstrap', '~> 5.3.3'
 
+# NETWORKING
+gem 'dotenv-rails'
+# Cloud
+gem 'aws-sdk-s3', require: false
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mswin mswin64 mingw x64_mingw], require: 'debug/prelude'

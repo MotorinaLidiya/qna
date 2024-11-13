@@ -1,6 +1,8 @@
 div id="question#{@question.id}"
   h1= @question.title
   p= @question.body
+  = render 'shared/attachments', resource: @question
+
   - if user_signed_in? && @question.author == current_user
     p = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id:  @question.id }
 
@@ -8,11 +10,15 @@ div id="question#{@question.id}"
     = render 'shared/errors', resource: @question
 
     = form_with model: @question, local: false, class: 'd-none', html: { id: "edit-question-#{@question.id}" } do |f|
-      div
+      p
       = f.label :title, 'Your question'
       = f.text_field :title, id: 'question_title'
-      div
+      p
       = f.label :body, 'Add description'
       = f.text_area :body, id: 'question_body'
-      div
+      p
+        = f.label :files, 'Add file'
+        = f.file_field :files, multiple: true, direct_upload: true
+        = render 'shared/attachments', resource: @question, edit_mode: true
+      p
       = f.submit 'Submit Question'

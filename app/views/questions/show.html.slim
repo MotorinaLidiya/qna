@@ -4,8 +4,6 @@
 h2 Answers
 .answers
   - @answers.each do |answer|
-    - if answer.best
-      h3 Best answer:
     = render answer
 
 h3 Write an Answer:
@@ -13,6 +11,10 @@ h3 Write an Answer:
   = render 'shared/errors', resource: @answer
 = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
   .form-group
+    p
     = f.label :body
     = f.text_area :body, class: 'form-control', id: 'answer_body'
+    p
+      = f.label :files
+      = f.file_field :files, multiple: true, direct_upload: true
   = f.submit 'Submit Answer', class: 'btn btn-success'

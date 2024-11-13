@@ -31,10 +31,38 @@ feature 'User can edit his answer', "
     scenario 'edits his answer with errors' do
       within "#answer_#{answer.id}", visible: false do
         click_on 'Edit'
-
         fill_in 'Your answer', with: ''
         click_on 'Save'
         expect(page).to have_content "Body can't be blank"
+      end
+    end
+
+    scenario 'loads file into his answer and deletes attached file' do
+      within "#answer_#{answer.id}" do
+        click_on 'Edit'
+        attach_file 'Add file', Rails.root.join('spec/rails_helper.rb')
+        click_on 'Save'
+        expect(page).to have_link 'rails_helper.rb'
+
+        find('.edit-answer-link').click
+        click_link 'Remove'
+        click_on 'Save'
+        expect(page).to_not have_link 'rails_helper.rb'
+      end
+    end
+
+    scenario 'can load files a few times' do
+      within "#answer_#{answer.id}" do
+        click_on 'Edit'
+        attach_file 'Add file', Rails.root.join('spec/rails_helper.rb')
+        click_on 'Save'
+        expect(page).to have_link 'rails_helper.rb'
+
+        click_on 'Edit'
+        attach_file 'Add file', Rails.root.join('spec/spec_helper.rb')
+        click_on 'Save'
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
       end
     end
   end

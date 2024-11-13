@@ -6,7 +6,7 @@ feature 'User can create answer', "
   I'd like to be able to give an answer
 " do
   given(:user) { create(:user) }
-  given(:question) { create(:question) }
+  given!(:question) { create(:question) }
 
   describe 'Authenticated user', js: true do
     background do
@@ -15,20 +15,27 @@ feature 'User can create answer', "
     end
 
     scenario 'gives an answer' do
-      fill_in 'Body', with: 'Answer text'
-      click_on 'Submit Answer'
+      fill_in 'answer[body]', with: 'Answer text'
+      click_button 'Submit Answer'
 
-      expect(page).to have_content 'Answer text'
-
-      expect(current_path).to eq question_path(question)
-      within '.answers' do
-        expect(page).to have_content 'Answer text'
-      end
+      element = find('.answers')
+      expect(element).to have_content 'Answer text'
     end
 
-    scenario 'asks an answer with errors' do
-      click_on 'Submit Answer'
-      expect(page).to have_content "Body can't be blank"
+    scenario 'gives an answer with errors' do
+      click_button 'Submit Answer'
+
+      element = find('.answer-errors')
+      expect(element).to have_content "Body can't be blank"
+    end
+
+    scenario 'gives an answer with attached file' do
+      fill_in 'answer[body]', with: 'Answer text'
+      attach_file 'Files', [Rails.root.join('spec/rails_helper.rb'), Rails.root.join('spec/spec_helper.rb')]
+      click_button 'Submit Answer'
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
     end
   end
 

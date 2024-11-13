@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
-  let(:question) { create(:question) }
+  let(:question) { create(:question, author: user) }
   let(:answers) { create_list(:answer, 3, question: question, author: user) }
   let(:answer) { answers.first }
 
@@ -60,6 +60,42 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'renders update template' do
         expect(response).to render_template :update
+      end
+    end
+  end
+
+  describe 'PATCH #make_best' do
+    let(:second_user) { create(:user) }
+    let(:answer_second) { answers.second }
+
+    context 'author of the question' do
+      before do
+        login(user)
+        patch :make_best, params: { id: answer }, format: :js
+      end
+
+      it 'makes answer best' do
+        expect(answer.reload).to be_best
+        expect(answer_second.reload).not_to be_best
+      end
+
+      it 'renders make_best template' do
+        expect(response).to render_template :make_best
+      end
+    end
+
+    context 'not author of the question' do
+      before do
+        login(second_user)
+        patch :make_best, params: { id: answer_second }, format: :js
+      end
+
+      it 'does not mark answer as best' do
+        expect(answer_second.reload).not_to be_best
+      end
+
+      it 'renders make_best template' do
+        expect(response).to render_template :make_best
       end
     end
   end

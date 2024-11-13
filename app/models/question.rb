@@ -3,6 +3,8 @@ class Question < ApplicationRecord
 
   has_many :answers, dependent: :destroy
 
+  has_many_attached :files
+
   validates :title, presence: true, length: { maximum: 50 }
   validates :body, presence: true, length: { maximum: 300 }
 end

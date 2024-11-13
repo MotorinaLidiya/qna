@@ -8,7 +8,10 @@ class AnswersController < ApplicationController
 
   def update
     @question = answer.question
-    answer.update(answer_params)
+    if answer.update(answer_params.except(:files)) && params[:answer][:files].present?
+      @answer.files.attach(params[:answer][:files])
+    end
+    @answer.reload
   end
 
   def destroy
@@ -16,19 +19,22 @@ class AnswersController < ApplicationController
   end
 
   def make_best
+    @question = answer.question
+    return unless @question.author == current_user
+
     answer.mark_as_best
-    @answers = answer.question.answers.sort_by_best
+    @answers = @question.answers.sort_by_best
   end
 
   private
 
   def answer
-    @answer ||= Answer.find(params[:id])
+    @answer ||= Answer.with_attached_files.find(params[:id])
   end
 
   helper_method :answer
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, files: [])
   end
 end
