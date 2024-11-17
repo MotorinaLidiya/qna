@@ -2,7 +2,7 @@ div id="question#{@question.id}"
   h1= @question.title
   p= @question.body
   = render 'shared/attachments', resource: @question
-  = render 'link', resource: @question
+  = render 'shared/link', resource: @question
 
   - if user_signed_in? && @question.author == current_user
     p = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id:  @question.id }

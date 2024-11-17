@@ -6,6 +6,7 @@ div id="answer_#{answer.id}"
   p.em Posted at: #{answer.created_at.strftime("%d %B %Y, %H:%M")}
   p= answer.body
   = render 'shared/attachments', resource: answer
+  = render 'shared/link', resource: answer
 
   - if user_signed_in?
     - if answer.author == current_user
