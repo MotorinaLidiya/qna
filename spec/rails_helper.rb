@@ -35,29 +35,7 @@ RSpec.configure do |config|
   config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
 
-  if ENV['USE_REMOTE_CHROME'] # need for GitHub Actions
-    Capybara.register_driver :remote_chrome do |app|
-      Capybara::Selenium::Driver.new(
-        app,
-        browser: :remote,
-        capabilities: :chrome,
-        url: 'http://browser:4444/wd/hub'
-      )
-    end
-
-    Capybara.configure do |config|
-      config.run_server = true
-      config.javascript_driver = :remote_chrome
-      config.app_host = 'http://web:3001'
-      config.server_host = 'web'
-      config.server_port = '3001'
-      config.always_include_port = true
-      config.default_max_wait_time = 4
-    end
-  else
-    Capybara.javascript_driver = :selenium_headless
-  end
-
+  Capybara.javascript_driver = :selenium_headless
   Capybara.default_max_wait_time = 5
   config.include WaitForAjax, type: :feature
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
