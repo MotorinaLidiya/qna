@@ -22,6 +22,11 @@ jobs:
           POSTGRES_DB: rails_test
           POSTGRES_USER: rails
           POSTGRES_PASSWORD: password
+      browser:
+        image: selenium/standalone-chrome-debug
+        ports:
+          - "5900:5900" #for VNC access
+          - "4444:4444" #for webdriver access
     env:
       RAILS_ENV: test
       DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
@@ -41,13 +46,5 @@ jobs:
         run: bundle exec rubocop --parallel --require rubocop-rails
       - name: Run Unit tests
         run: bundle exec rspec spec --exclude-pattern "spec/features/**/*_spec.rb"
-      - name: Install Firefox and geckodriver
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y firefox
-          sudo apt-get install -y wget
-          wget https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz
-          tar -xvzf geckodriver-v0.33.0-linux64.tar.gz
-          sudo mv geckodriver /usr/local/bin/
       - name: Run Integration tests
-        run: bundle exec rspec spec/features/
+        run: USE_REMOTE_CHROME=true bundle exec rspec spec/features/
