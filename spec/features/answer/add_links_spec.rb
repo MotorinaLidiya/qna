@@ -8,20 +8,44 @@ feature 'User can add links to answer', "{
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
   given(:gist_url) { 'https://github.com' }
+  given(:link_url) { 'https://link.com' }
 
-  scenario 'User adds link when give an answer', js: true do
-    sign_in(user)
-    visit question_path(question)
+  describe 'User adds', js: true do
+    background do
+      sign_in(user)
+      visit question_path(question)
 
-    fill_in 'answer[body]', with: 'My answer with link'
+      fill_in 'answer[body]', with: 'My answer with link'
+    end
 
-    fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: gist_url
+    scenario 'link when give an answer' do
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: gist_url
 
-    click_button 'Submit Answer'
+      click_button 'Submit Answer'
 
-    within '.answers' do
-      expect(page).to have_link 'My gist', href: gist_url
+      within '.answers' do
+        expect(page).to have_link 'My gist', href: gist_url
+      end
+    end
+
+    scenario 'many links when give an answer' do
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: gist_url
+
+      click_link 'Add one more link'
+
+      within all('.nested-fields').last do
+        fill_in 'Link name', with: 'My link'
+        fill_in 'Url', with: link_url
+      end
+
+      click_button 'Submit Answer'
+
+      within '.answers' do
+        expect(page).to have_link 'My gist', href: gist_url
+        expect(page).to have_link 'My link', href: link_url
+      end
     end
   end
 end

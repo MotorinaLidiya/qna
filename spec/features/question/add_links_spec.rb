@@ -7,19 +7,43 @@ feature 'User can add links to question', "{
 }" do
   given(:user) { create(:user) }
   given(:gist_url) { 'https://github.com' }
+  given(:link_url) { 'https://link.com' }
 
-  scenario 'User adds link when asks question' do
-    sign_in(user)
-    visit new_question_path
+  describe 'User adds' do
+    background do
+      sign_in(user)
+      visit new_question_path
 
-    fill_in 'Title', with: 'Test question'
-    fill_in 'Body', with: 'text text text'
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'text text text'
+    end
 
-    fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: gist_url
+    scenario 'link when asks question' do
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: gist_url
 
-    click_on 'Ask'
+      click_on 'Ask'
 
-    expect(page).to have_link 'My gist', href: gist_url
+      expect(page).to have_link 'My gist', href: gist_url
+    end
+
+    scenario 'many links when asks question', js: true do
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: gist_url
+
+      click_link 'Add one more link'
+
+      within all('.nested-fields').last do
+        fill_in 'Link name', with: 'My link'
+        fill_in 'Url', with: link_url
+      end
+
+      click_on 'Ask'
+
+      within '.questions' do
+        expect(page).to have_link 'My gist', href: gist_url
+        expect(page).to have_link 'My link', href: link_url
+      end
+    end
   end
 end

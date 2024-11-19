@@ -9,6 +9,7 @@ h2 Answers
 h3 Write an Answer:
 .answer-errors
   = render 'shared/errors', resource: @answer
+
 = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
   .form-group
     p
@@ -17,13 +18,14 @@ h3 Write an Answer:
     p
       = f.label :files
       = f.file_field :files, multiple: true, direct_upload: true
-    p Links
+
+    b Links
     p
-      = f.fields_for :links do |l|
-        p
-          = l.label :name, 'Link name'
-          = l.text_field :name
-        p
-          = l.label :url
-          = l.text_field :url
+      #links
+        = f.fields_for :links do |link|
+          = render 'link_fields', f: link
+        .links-add
+          p
+          = link_to_add_association 'Add one more link', f, :links, class: 'btn btn-secondary'
+
   = f.submit 'Submit Answer', class: 'btn btn-success'

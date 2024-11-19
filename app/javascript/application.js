@@ -2,6 +2,7 @@ import $ from 'jquery'
 import Rails from "@rails/ujs"
 import * as ActiveStorage from "@rails/activestorage"
 import 'bootstrap'
+import '@oddcamp/cocoon-vanilla-js'
 
 import './utilities/answers'
 import './utilities/questions'

@@ -21,5 +21,14 @@ div id="question#{@question.id}"
         = f.label :files, 'Add file'
         = f.file_field :files, multiple: true, direct_upload: true
         = render 'shared/attachments', resource: @question, edit_mode: true
+
+      b Links
+      p
+        #links-edit
+          = f.fields_for :links do |link|
+            = render 'link_fields', f: link
+          .links-add-edit
+            p
+            = link_to_add_association 'Add one more link', f, :links, class: 'btn btn-secondary'
       p
       = f.submit 'Submit Question'
