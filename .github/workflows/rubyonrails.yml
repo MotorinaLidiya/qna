@@ -41,5 +41,7 @@ jobs:
         run: bundle exec rubocop --parallel --require rubocop-rails
       - name: Run Unit tests
         run: bundle exec rspec spec --exclude-pattern "spec/features/**/*_spec.rb"
+      - name: Install ChromeDriver
+        run: sudo apt-get install chromium-browser chromium-chromedriver
       - name: Run Integration tests
         run: bundle exec rspec spec/features/
