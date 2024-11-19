@@ -41,7 +41,13 @@ jobs:
         run: bundle exec rubocop --parallel --require rubocop-rails
       - name: Run Unit tests
         run: bundle exec rspec spec --exclude-pattern "spec/features/**/*_spec.rb"
-      - name: Install ChromeDriver
-        run: sudo apt-get install chromium-browser chromium-chromedriver
+      - name: Install Firefox and geckodriver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y firefox
+          sudo apt-get install -y wget
+          wget https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz
+          tar -xvzf geckodriver-v0.33.0-linux64.tar.gz
+          sudo mv geckodriver /usr/local/bin/
       - name: Run Integration tests
         run: bundle exec rspec spec/features/
