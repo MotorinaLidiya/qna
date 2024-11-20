@@ -24,7 +24,9 @@ feature 'User can edit links of question', "{
         click_button 'Submit Question'
       end
 
-      expect(page).to have_link 'My link', href: link_url
+      within '.questions' do
+        expect(page).to have_link 'My link', href: link_url
+      end
     end
 
     scenario 'deletes link of his question', js: true do

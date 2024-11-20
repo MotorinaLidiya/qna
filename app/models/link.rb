@@ -3,4 +3,8 @@ class Link < ApplicationRecord
 
   validates :name, presence: true
   validates :url, presence: true, format: { with: %r{\Ahttps?://[\S]+\z} }
+
+  def gist?
+    url.include?('gist.github.com')
+  end
 end
