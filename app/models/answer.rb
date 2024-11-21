@@ -20,5 +20,7 @@ class Answer < ApplicationRecord
       # rubocop:enable Rails/SkipsModelValidations
       update(best: true)
     end
+
+    author.get_reward(question) if question.reward
   end
 end

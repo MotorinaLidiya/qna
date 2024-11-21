@@ -6,6 +6,9 @@ class Question < ApplicationRecord
 
   has_many_attached :files
 
+  has_one :reward
+
+  accepts_nested_attributes_for :reward, reject_if: :all_blank
   accepts_nested_attributes_for :links, reject_if: :all_blank, allow_destroy: true
 
   validates :title, presence: true, length: { maximum: 50 }
