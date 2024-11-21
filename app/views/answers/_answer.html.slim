@@ -6,6 +6,7 @@ div id="answer_#{answer.id}"
   p.em Posted at: #{answer.created_at.strftime("%d %B %Y, %H:%M")}
   p= answer.body
   = render 'shared/attachments', resource: answer
+  = render 'shared/link', resource: answer
 
   - if user_signed_in?
     - if answer.author == current_user
@@ -24,4 +25,12 @@ div id="answer_#{answer.id}"
       = f.label :files, 'Add file'
       = f.file_field :files, multiple: true, direct_upload: true
       = render 'shared/attachments', resource: answer, edit_mode: true
+    b Links
+    p
+      #answer-links-edit
+        = f.fields_for :links do |link|
+          = render 'link_fields', f: link
+        .answer-links-add-edit
+          p
+          = link_to_add_association 'Add one more link', f, :links, class: 'btn btn-secondary'
     = f.submit 'Save'

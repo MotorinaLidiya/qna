@@ -39,3 +39,5 @@ jobs:
       # Add or replace test runners here
       - name: Lint Ruby files
         run: bundle exec rubocop --parallel --require rubocop-rails
+      - name: Run Unit tests
+        run: bundle exec rspec spec --exclude-pattern "spec/features/**/*_spec.rb"

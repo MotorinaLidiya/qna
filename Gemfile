@@ -5,7 +5,7 @@ gem 'rails', '~> 6.1.0'
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 1.1'
+gem 'pg', '~> 1.5'
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma', '>= 5.0'
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
@@ -45,6 +45,8 @@ gem 'bootstrap', '~> 5.3.3'
 gem 'dotenv-rails'
 # Cloud
 gem 'aws-sdk-s3', require: false
+# Dynamic cell addition
+gem 'cocoon'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
