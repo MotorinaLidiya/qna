@@ -4,6 +4,5 @@ class Reward < ApplicationRecord
 
   has_one_attached :image
 
-  validates :title, presence: true, length: { maximum: 50 }
-  validates :image, presence: true
+  validates :reward_title, presence: true, length: { maximum: 50 }
 end

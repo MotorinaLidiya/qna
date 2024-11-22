@@ -6,7 +6,7 @@ class Question < ApplicationRecord
 
   has_many_attached :files
 
-  has_one :reward
+  has_one :reward, dependent: :nullify
 
   accepts_nested_attributes_for :reward, reject_if: :all_blank
   accepts_nested_attributes_for :links, reject_if: :all_blank, allow_destroy: true

@@ -4,11 +4,9 @@
   p
     = f.label :title
     = f.text_field :title
-
   p
     = f.label :body
     = f.text_area :body
-
   p
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true
@@ -21,5 +19,15 @@
       .links-add
         p
         = link_to_add_association 'Add one more link', f, :links, class: 'btn btn-secondary'
+
+  b Reward user with best answer:
+  p
+    #reward
+      = f.fields_for :reward do |r|
+        = r.label :reward_title, 'Reward title'
+        = r.text_field :reward_title
+        p
+        = r.label :image, 'Upload image'
+        = r.file_field :image, direct_upload: true
   p
     = f.submit 'Ask'
