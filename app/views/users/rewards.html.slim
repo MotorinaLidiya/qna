@@ -1,0 +1,10 @@
+- if @rewards.any?
+  .user-rewards
+    ul
+      - @rewards.each do |reward|
+        li = reward.reward_title
+        = image_tag reward.image, alt: reward.reward_title, style: 'max-width: 1000px; max-height: 1000px; object-fit: cover;'
+        p
+          = reward.question.title
+- else
+  p You have no rewards yet

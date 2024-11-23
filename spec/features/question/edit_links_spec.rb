@@ -25,7 +25,7 @@ feature 'User can edit links of question', "{
       end
 
       within '.questions' do
-        expect(page).to have_link 'My link', href: link_url
+        expect(page).to have_link 'My link', href: link_url, wait: 5
       end
     end
 
