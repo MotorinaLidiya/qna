@@ -21,6 +21,6 @@ class Answer < ApplicationRecord
       update(best: true)
     end
 
-    author.get_reward(question) if question.reward
+    author.give_reward(question) if question.reward
   end
 end
