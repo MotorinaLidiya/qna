@@ -1,7 +1,20 @@
 Rails.application.routes.draw do
+
+  concern :reactionable do
+    resources :reactions, only: [:create, :destroy] do
+      member do
+        patch :like
+        patch :dislike
+      end
+    end
+  end
+
   devise_for :users
-  resources :questions do
-    resources :answers, shallow: true, only: %i[create update destroy] do
+
+  root to: 'questions#index'
+
+  resources :questions, concerns: :reactionable do
+    resources :answers, shallow: true, only: %i[create update destroy], concerns: :reactionable do
       member do
         patch :make_best
       end
@@ -15,5 +28,4 @@ Rails.application.routes.draw do
   end
 
   resources :attachments, only: :destroy
-  root to: 'questions#index'
 end
