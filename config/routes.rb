@@ -1,20 +1,16 @@
 Rails.application.routes.draw do
 
-  concern :reactionable do
-    resources :reactions, only: [:create, :destroy] do
-      member do
-        patch :like
-        patch :dislike
-      end
-    end
+  resources :reactions, only: [] do
+    patch :like, on: :collection
+    patch :dislike, on: :collection
   end
 
   devise_for :users
 
   root to: 'questions#index'
 
-  resources :questions, concerns: :reactionable do
-    resources :answers, shallow: true, only: %i[create update destroy], concerns: :reactionable do
+  resources :questions do
+    resources :answers, shallow: true, only: %i[create update destroy] do
       member do
         patch :make_best
       end

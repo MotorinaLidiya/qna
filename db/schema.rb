@@ -75,13 +75,14 @@ ActiveRecord::Schema.define(version: 2024_11_26_201600) do
   end
 
   create_table "reactions", force: :cascade do |t|
-    t.integer "kind"
+    t.integer "value", default: 0, null: false
     t.bigint "user_id", null: false
     t.string "reactionable_type"
     t.bigint "reactionable_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["reactionable_type", "reactionable_id"], name: "index_reactions_on_reactionable"
+    t.index ["user_id", "reactionable_type", "reactionable_id"], name: "index_reactions_on_user_and_reactionable", unique: true
     t.index ["user_id"], name: "index_reactions_on_user_id"
   end
 

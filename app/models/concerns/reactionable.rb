@@ -5,6 +5,6 @@ module Reactionable
   end
 
   def reaction_rating
-    reactions.where(kind: 'like').count - reactions.where(kind: 'dislike').count
+    reactions.sum(:value)
   end
 end

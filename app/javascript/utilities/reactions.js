@@ -26,20 +26,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const resourceId = reactionElement.dataset.reactionableId
         const resourceType = reactionElement.dataset.reactionableType
 
-        const url = `/reactions/4/${reactionType}?reactionable_type=${resourceType}&reactionable_id=${resourceId}`
+        const url = `/reactions/${reactionType}?reactionable_type=${resourceType}&reactionable_id=${resourceId}`
 
         $.ajax({
             url: url,
             type: 'PATCH',
             dataType: 'json',
             success: (data) => {
-                // Обновляем рейтинг
                 const ratingElement = reactionElement.querySelector('.reactions-rating p');
                 if (ratingElement) {
                     ratingElement.textContent = `Rating: ${data.rating}`;
                 }
 
-                // Переключаем классы кнопок
                 updateButtonStyles(button, reactionType, reactionElement);
             },
             error: (err) => {
@@ -48,18 +46,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function switchButtonStyle(button, color1, color2) {
+        if (button.classList.contains(color1)) {
+            button.classList.add(color2);
+            button.classList.remove(color1);
+        } else {
+            button.classList.remove(color2);
+            button.classList.add(color1);
+        }
+    }
+
     function updateButtonStyles(button, reactionType, reactionElement) {
         const likeButton = reactionElement.querySelector('.like-btn');
         const dislikeButton = reactionElement.querySelector('.dislike-btn');
 
         if (reactionType === 'like') {
-            likeButton.classList.remove('btn-outline-success');
-            likeButton.classList.add('btn-success');
+            switchButtonStyle(likeButton, 'btn-success', 'btn-outline-success')
+
             dislikeButton.classList.remove('btn-danger');
             dislikeButton.classList.add('btn-outline-danger');
         } else if (reactionType === 'dislike') {
-            dislikeButton.classList.remove('btn-outline-danger');
-            dislikeButton.classList.add('btn-danger');
+            switchButtonStyle(dislikeButton, 'btn-danger', 'btn-outline-danger')
+
             likeButton.classList.remove('btn-success');
             likeButton.classList.add('btn-outline-success');
         }

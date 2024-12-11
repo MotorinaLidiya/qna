@@ -3,8 +3,7 @@ module Authorable
 
   included do
     belongs_to :author, class_name: 'User'
-    validates :author, presence: true
 
-    scope :by_author, ->(author) { where(author: author) }
+    scope :by_author, ->(author) { where(author:) }
   end
 end

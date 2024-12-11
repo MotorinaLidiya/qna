@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :reaction do
-    kind { 1 }
+    user
+    reactionable { create(:question) }
+    value { 1 }
   end
 end

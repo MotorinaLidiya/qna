@@ -2,32 +2,32 @@ class ReactionsController < ActionController::API
   before_action :authenticate_user!
 
   def like
-    set_reactionable
-    action('like')
+    reaction_action(value: 1)
   end
 
   def dislike
+    reaction_action(value: -1)
+  end
+
+  def reaction_action(value:)
     set_reactionable
-    action('dislike')
+    @reaction = @reactionable.reactions.find_or_initialize_by(user: current_user)
+
+    if @reaction.new_record?
+      @reaction.value = value
+      @reaction.save
+    elsif @reaction.value == value
+      @reaction.destroy
+    else
+      @reaction.update(value:)
+    end
+
+    render json: { rating: @reactionable.reaction_rating }
   end
 
   private
 
   def set_reactionable
     @reactionable = params[:reactionable_type].constantize.find(params[:reactionable_id])
-  end
-
-  def action(kind)
-    @reaction = @reactionable.reactions.find_by(user: current_user)
-
-    if @reaction.present? && @reaction.kind == kind
-      @reaction.destroy
-    elsif @reaction.present?
-      @reaction.update(kind:)
-    else
-      @reactionable.reactions.create(kind: kind, user: current_user)
-    end
-
-    render json: { rating: @reactionable.reaction_rating }
   end
 end
