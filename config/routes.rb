@@ -1,5 +1,14 @@
 Rails.application.routes.draw do
+
+  resources :reactions, only: [] do
+    patch :like, on: :collection
+    patch :dislike, on: :collection
+  end
+
   devise_for :users
+
+  root to: 'questions#index'
+
   resources :questions do
     resources :answers, shallow: true, only: %i[create update destroy] do
       member do
@@ -15,5 +24,4 @@ Rails.application.routes.draw do
   end
 
   resources :attachments, only: :destroy
-  root to: 'questions#index'
 end

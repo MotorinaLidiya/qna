@@ -6,6 +6,7 @@ import '@oddcamp/cocoon-vanilla-js'
 
 import './utilities/answers'
 import './utilities/questions'
+import './utilities/reactions'
 import "../assets/stylesheets/application.scss";
 
 Rails.start()
