@@ -1,30 +1,34 @@
-.questions
+.section.questions.ms-4.me-4
   = render @question
 
-h2 Answers
-.answers
-  - @answers.each do |answer|
-    = render answer
+  .answers.ms-5.mb-4
+    - @answers.each do |answer|
+      = render answer
 
-h3 Write an Answer:
-.answer-errors
-  = render 'shared/errors', resource: @answer
+  h3.mt-4 Write an Answer:
 
-= form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
-  .form-group
+  .answer-errors.mb-3
+    = render 'shared/errors', resource: @answer
+
+  = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
+    .form-group.mb-4
+      p
+      = f.label :body, class: 'form-label'
+      = f.text_area :body, class: 'form-control', id: 'answer_body'
     p
-    = f.label :body
-    = f.text_area :body, class: 'form-control', id: 'answer_body'
-    p
-      = f.label :files
-      = f.file_field :files, multiple: true, direct_upload: true
+      = f.label :files, class: 'form-label'
+      = f.file_field :files, multiple: true, direct_upload: true, class: 'form-control'
+
     b Links
-    p
+    .links-section.mb-4
+      p
       #links
         = f.fields_for :links do |link|
           = render 'link_fields', f: link
-        .links-add
-          p
-          = link_to_add_association 'Add one more link', f, :links, class: 'btn btn-secondary'
 
-  = f.submit 'Submit Answer', class: 'btn btn-success'
+      .links-add.mt-2
+        p
+        = link_to_add_association 'Add one more link', f, :links, class: 'btn btn-secondary'
+
+    .submit-btn.mt-4
+      = f.submit 'Submit Answer', class: 'btn btn-success'

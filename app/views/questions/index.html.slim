@@ -1,6 +1,11 @@
-- if user_signed_in?
-    p= link_to 'Ask question', new_question_path
+.section.questions-list.collection.ms-4
+    - if user_signed_in?
+        .mb-4
+            = link_to 'Ask question', new_question_path, class: 'btn btn-primary'
 
-- @questions.each do |q|
-    h2= link_to q.title, q
-    p= truncate(q.body, length: 50)
+    - @questions.each do |q|
+        .question-item.mb-4
+            h2
+                = link_to q.title, q, class: 'text-dark h5'
+            p.text-muted= truncate(q.body, length: 50)
+            small.text-muted= "Posted by #{q.author.email} on #{q.created_at.strftime('%B %d, %Y')}"

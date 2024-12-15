@@ -1,5 +1,5 @@
 div id="question#{@question.id}"
-  h1= @question.title
+  h4= @question.title
   p= @question.body
   = render 'shared/attachments', resource: @question
   = render 'shared/link', resource: @question
