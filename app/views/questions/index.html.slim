@@ -1,11 +1,8 @@
-.section.questions-list.collection.ms-4
-    - if user_signed_in?
-        .mb-4
-            = link_to 'Ask question', new_question_path, class: 'btn btn-primary'
+.section.collection.ms-4
+  - if user_signed_in?
+    .mb-4
+      = link_to 'Ask question', new_question_path, class: 'btn btn-primary'
 
+  .questions-list
     - @questions.each do |q|
-        .question-item.mb-4
-            h2
-                = link_to q.title, q, class: 'text-dark h5'
-            p.text-muted= truncate(q.body, length: 50)
-            small.text-muted= "Posted by #{q.author.email} on #{q.created_at.strftime('%B %d, %Y')}"
+      = render partial: 'questions/question_header', locals: { question: q }

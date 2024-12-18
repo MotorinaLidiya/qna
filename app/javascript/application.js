@@ -4,6 +4,7 @@ import * as ActiveStorage from "@rails/activestorage"
 import 'bootstrap'
 import '@oddcamp/cocoon-vanilla-js'
 
+import './channels/questions'
 import './utilities/answers'
 import './utilities/questions'
 import './utilities/reactions'
