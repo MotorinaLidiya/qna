@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
+  after_action :publish_question, only: :create
 
   def index
     @questions = Question.includes(:author, :answers)
@@ -63,6 +64,20 @@ class QuestionsController < ApplicationController
       links_attributes: %i[id name url _destroy],
       reward_attributes: %i[reward_title image],
       reaction_attributes: %i[value]
+    )
+  end
+
+  def publish_question
+    return if @question.errors.any?
+
+    html = ApplicationController.render(
+      partial: 'questions/question_header',
+      locals: { question: @question }
+    )
+
+    ActionCable.server.broadcast(
+      'questions',
+      { html: html, question_id: @question.id, title: @question.title, body: @question.body }
     )
   end
 end

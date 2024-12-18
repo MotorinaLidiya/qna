@@ -1,0 +1,5 @@
+.question-item.mb-4
+  h2
+    = link_to question.title, question, class: 'text-dark h5'
+  p.text-muted= truncate(question.body, length: 50)
+  small.text-muted= "Posted by #{question.author.email} on #{question.created_at.strftime('%B %d, %Y')}"

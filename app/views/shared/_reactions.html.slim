@@ -1,6 +1,6 @@
 div class='reaction' id="reaction_#{resource.id}" data-reactionable-type=resource.class.name data-reactionable-id=resource.id
   .reactions-rating
-    span class="fw-bold text-decoration-underline"
+    span class="text-decoration-underline"
       p Rating:  #{resource.reaction_rating}
   - if user_signed_in? && resource.author != current_user
     - user_reaction = resource.reactions.find_by(user: current_user)

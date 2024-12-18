@@ -1,33 +1,42 @@
-= render 'shared/errors', resource: @question
+.section.question-form.ms-4.me-4
+  = render 'shared/errors', resource: @question
 
-= form_with model: @question, local: true do |f|
-  p
-    = f.label :title
-    = f.text_field :title
-  p
-    = f.label :body
-    = f.text_area :body
-  p
-    = f.label :files
-    = f.file_field :files, multiple: true, direct_upload: true
+  = form_with model: @question, local: true, class: 'question-form' do |f|
+    .form-group.mb-4
+      p
+        = f.label :title, class: 'form-label'
+        = f.text_field :title, class: 'form-control'
+      p
+        = f.label :body, class: 'form-label'
+        = f.text_area :body, class: 'form-control'
+      p
+        = f.label :files, class: 'form-label'
+        = f.file_field :files, multiple: true, direct_upload: true, class: 'form-control'
 
-  b Links:
-  p
-    #links
-      = f.fields_for :links do |link|
-        = render 'link_fields', f: link
-      .links-add
+    b Links:
+    .links-section.mb-4
+      p
+        #links
+          = f.fields_for :links do |link|
+            = render 'link_fields', f: link
+
+      .links-add.mt-2
         p
         = link_to_add_association 'Add one more link', f, :links, class: 'btn btn-secondary'
 
-  b Reward user with best answer:
-  p
-    #reward
-      = f.fields_for :reward do |r|
-        = r.label :reward_title, 'Reward title'
-        = r.text_field :reward_title
-        p
-        = r.label :image, 'Upload image'
-        = r.file_field :image, direct_upload: true
-  p
-    = f.submit 'Ask'
+    b Add reward for user with best answer:
+    .reward-section.mb-4
+      p
+        #reward
+          = f.fields_for :reward do |r|
+            .form-group.mb-3
+              = r.label :reward_title, 'Reward title', class: 'form-label'
+              = r.text_field :reward_title, class: 'form-control'
+
+            .form-group.mb-3
+              = r.label :image, 'Upload image', class: 'form-label'
+              = r.file_field :image, direct_upload: true, class: 'form-control'
+
+    .d-flex.justify-content-center.mt-4
+      = f.submit 'Ask', class: 'btn btn-success'
+
