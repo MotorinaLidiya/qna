@@ -32,7 +32,7 @@ feature 'User can see question updates in real time', "
       end
     end
 
-    scenario "question does not appear twice on different pages" do
+    scenario 'question does not appear twice on different pages' do
       Capybara.using_session('user') do
         sign_in(user)
         visit questions_path

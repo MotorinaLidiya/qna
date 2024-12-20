@@ -5,4 +5,4 @@
 
   .questions-list
     - @questions.each do |q|
-      = render partial: 'questions/question_header', locals: { question: q }
+      = render partial: 'questions/questions_list_item', locals: { question: q }

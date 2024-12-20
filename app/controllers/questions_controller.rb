@@ -71,13 +71,13 @@ class QuestionsController < ApplicationController
     return if @question.errors.any?
 
     html = ApplicationController.render(
-      partial: 'questions/question_header',
+      partial: 'questions/questions_list_item',
       locals: { question: @question }
     )
 
     ActionCable.server.broadcast(
       'questions',
-      { html: html, question_id: @question.id, title: @question.title, body: @question.body }
+      { html:, question_id: @question.id, title: @question.title, body: @question.body }
     )
   end
 end
