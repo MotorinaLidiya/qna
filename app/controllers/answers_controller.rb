@@ -40,8 +40,6 @@ class AnswersController < ApplicationController
   end
 
   def publish_answer
-    p("Publishing answer for question #{@question.id}")
-
     return if @answer.errors.any?
 
     html = ApplicationController.render(

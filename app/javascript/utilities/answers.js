@@ -13,4 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
     }
+
+    $('form').on('ajax:success', (event) => {
+        const form = event.currentTarget
+
+        $(form).find('.nested-fields input[type="text"]').val('')
+    })
 })
