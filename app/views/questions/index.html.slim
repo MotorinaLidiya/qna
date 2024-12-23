@@ -1,6 +1,8 @@
-- if user_signed_in?
-    p= link_to 'Ask question', new_question_path
+.section.collection.ms-4
+  - if user_signed_in?
+    .mb-4
+      = link_to 'Ask question', new_question_path, class: 'btn btn-primary'
 
-- @questions.each do |q|
-    h2= link_to q.title, q
-    p= truncate(q.body, length: 50)
+  .questions-list
+    - @questions.each do |q|
+      = render partial: 'questions/questions_list_item', locals: { question: q }

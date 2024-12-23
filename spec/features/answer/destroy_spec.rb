@@ -6,7 +6,6 @@ feature 'User can delete his answer', "
   I'd like to be able to delete my answer
 " do
   given(:user) { create(:user) }
-  given(:another_user) { create(:user) }
   given(:question) { create(:question) }
   given!(:answer) { create(:answer, body: 'Delete me', question: question, author: user) }
 
@@ -20,7 +19,7 @@ feature 'User can delete his answer', "
   end
 
   scenario 'Unauthenticated user tries to remove other answer' do
-    sign_in(another_user)
+    visit question_path(question)
 
     expect(page).to_not have_selector("delete-#{answer.id}", text: 'Delete')
   end

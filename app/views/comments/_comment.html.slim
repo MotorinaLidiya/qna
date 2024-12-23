@@ -1,0 +1,16 @@
+div id="comment_#{comment.id}"
+  .d-flex.align-items-start.mb-3.mx-5
+    .me-2
+      small.text-muted
+        = "#{comment.author.email} left comment #{time_ago_in_words(comment.created_at)} ago"
+      .ms-2
+        p.text-muted.mt-2
+          = comment.body
+
+    - if comment.author == current_user
+      .ms-auto.d-inline-flex.align-items-center
+        p.m-2 = link_to 'Delete comment',
+                comment.commentable_type == 'Question' ? question_comment_path(comment.commentable, comment.id) : comment_path(comment.id),
+                local: false, remote: true,
+                class: "delete-comment-link delete-#{comment.id} btn btn-outline-danger",
+                method: :delete

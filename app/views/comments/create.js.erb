@@ -1,0 +1,6 @@
+$('.comment-errors').html('<%= j render 'shared/errors', resource: @comment %>')
+
+<% if @comment.persisted? %>
+//$(`.comments[data-commentable-id="<%= @comment.commentable.id %>"]`).append('<%= j render @comment %>')
+$('.new-comment #comment_body').val('')
+<% end %>

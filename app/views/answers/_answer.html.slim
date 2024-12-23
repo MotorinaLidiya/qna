@@ -1,20 +1,21 @@
 div id="answer_#{answer.id}"
   - if answer.best
-    h3 Best answer:
+    h5 Best answer:
 
-  b= answer.author.email
-  p.em Posted at: #{answer.created_at.strftime("%d %B %Y, %H:%M")}
+  small.text-muted= "Posted at: #{answer.created_at.strftime("%d %B %Y, %H:%M")}"
+  p.text-muted= answer.author.email
   p= answer.body
   = render 'shared/attachments', resource: answer
   = render 'shared/link', resource: answer
-  = render 'shared/reactions', resource: answer
+  = render 'shared/reactions', resource: answer, current_user: current_user
 
-  - if user_signed_in?
-    - if answer.author == current_user
-      p = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id:  answer.id }
-      p = link_to 'Delete', answer_path(answer), local: false, remote: true, class: "delete-answer-link delete-#{answer.id}", method: :delete
-    - if !answer.best? && @question.author == current_user
-      p = button_to 'Make best', make_best_answer_path(answer), method: :patch, remote: true
+  .d-inline-flex.align-items-center
+    - if current_user
+      - if answer.author == current_user
+        p.m-2 = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id:  answer.id }
+        p.m-2 = link_to 'Delete', answer_path(answer), local: false, remote: true, class: "delete-answer-link delete-#{answer.id}", method: :delete
+      - if !answer.best? && answer.question.author == current_user
+        p.m-2 = button_to 'Make best', make_best_answer_path(answer), method: :patch, remote: true
 
   div id="answer-edit-errors_#{answer.id}"
     = render 'shared/errors', resource: answer
@@ -30,8 +31,18 @@ div id="answer_#{answer.id}"
     p
       #answer-links-edit
         = f.fields_for :links do |link|
-          = render 'link_fields', f: link
+          = render 'answers/link_fields', f: link
         .answer-links-add-edit
           p
-          = link_to_add_association 'Add one more link', f, :links, class: 'btn btn-secondary'
+          = link_to_add_association 'Add one more link', f, :links, partial: 'answers/link_fields', class: 'btn btn-secondary'
     = f.submit 'Save'
+
+  .comments.ms-5.mb-5[data-commentable-id="#{answer.id}"]
+    - if current_user
+      p = link_to 'Add Comment', '#', class: 'add-comment-link btn btn-outline-primary mx-5', data: { commentable_id: answer.id }
+
+      .comment-form-container.d-none[data-commentable-id=answer.id]
+        = render 'comments/form', resource: answer
+
+    - answer.comments.each do |comment|
+      = render comment

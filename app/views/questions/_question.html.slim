@@ -1,5 +1,5 @@
 div id="question#{@question.id}"
-  h1= @question.title
+  h4= @question.title
   p= @question.body
   = render 'shared/attachments', resource: @question
   = render 'shared/link', resource: @question
@@ -33,3 +33,13 @@ div id="question#{@question.id}"
             = link_to_add_association 'Add one more link', f, :links, class: 'btn btn-secondary'
       p
       = f.submit 'Submit Question'
+
+  .comments.ms-5.mb-5[data-commentable-id="#{@question.id}"]
+    - if user_signed_in?
+      p = link_to 'Add Comment', '#', class: 'add-comment-link btn btn-outline-primary mx-5', data: { commentable_id:  @question.id }
+
+      .comment-form-container.d-none[data-commentable-id=@question.id]
+        = render 'comments/form', resource: @question
+
+    - @question.comments.each do |comment|
+      = render comment

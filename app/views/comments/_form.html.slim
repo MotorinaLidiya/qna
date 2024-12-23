@@ -1,0 +1,10 @@
+.section.comment-form.ms-4.me-4
+  .comment-errors.mb-3
+    = render 'shared/errors', resource:
+
+  .comment-form-container
+    = form_with model: [resource, Comment.new], local: false, class: 'new-comment', html: { id: "#{resource.class.name.downcase}-#{resource.id}-comment" } do |f|
+      .form-group.mb-4
+        = f.text_area :body, class: 'form-control', placeholder: 'Add a comment..'
+      .submit-btn.mt-4
+        = f.submit 'Save', class: 'btn btn-success'

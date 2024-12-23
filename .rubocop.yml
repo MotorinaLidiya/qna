@@ -39,6 +39,9 @@ Layout/LineLength:
 Metrics/MethodLength:
   Max: 20
 
+Style/BlockDelimiters:
+  Enabled: false
+
 Metrics/BlockLength:
   Enabled: true
   Exclude:
