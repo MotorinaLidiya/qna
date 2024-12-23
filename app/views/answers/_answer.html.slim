@@ -36,3 +36,13 @@ div id="answer_#{answer.id}"
           p
           = link_to_add_association 'Add one more link', f, :links, partial: 'answers/link_fields', class: 'btn btn-secondary'
     = f.submit 'Save'
+
+  .comments.ms-5.mb-5[data-commentable-id="#{answer.id}"]
+    - if current_user
+      p = link_to 'Add Comment', '#', class: 'add-comment-link btn btn-outline-primary mx-5', data: { commentable_id: answer.id }
+
+      .comment-form-container.d-none[data-commentable-id=answer.id]
+        = render 'comments/form', resource: answer
+
+    - answer.comments.each do |comment|
+      = render comment

@@ -42,9 +42,6 @@ gem 'webpacker', '~> 5.4'
 # UI
 gem 'bootstrap', '~> 5.3.3'
 
-# Rails variables in js
-gem 'gon'
-
 # NETWORKING
 gem 'dotenv-rails'
 # Cloud

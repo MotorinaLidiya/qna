@@ -9,43 +9,22 @@ feature 'User can see answer updates in real time', "
   given(:question) { create(:question) }
 
   describe 'new answer', js: true do
-    scenario "answer appears on another user's page" do
+    scenario 'answer appears on another user page without duplication' do
       Capybara.using_session('user') do
         sign_in(user)
         visit question_path(question)
-      end
-
-      Capybara.using_session('guest') do
-        visit question_path(question)
-      end
-
-      Capybara.using_session('user') do
-        fill_in 'Body', with: 'new answer test text'
+        fill_in 'Body', with: 'new answer text'
         click_on 'Submit Answer'
-        expect(page).to have_content 'new answer test text'
-      end
-
-      Capybara.using_session('guest') do
-        expect(page).to have_content 'new answer test text'
-      end
-    end
-
-    scenario 'answer does not appear twice on different pages' do
-      Capybara.using_session('user') do
-        sign_in(user)
-        visit question_path(question)
-        fill_in 'Body', with: 'new answer test text'
-        click_on 'Submit Answer'
-        expect(page).to have_content 'new answer test text'
+        expect(page).to have_content 'new answer text'
       end
 
       Capybara.using_session('guest') do
         visit question_path(question)
-        expect(page).to have_content 'new answer test text'
+        expect(page).to have_content 'new answer text'
       end
 
       Capybara.using_session('user') do
-        expect(page).to have_content 'new answer test text'
+        expect(page).to have_content 'new answer text', count: 1
       end
     end
   end

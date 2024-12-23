@@ -8,10 +8,11 @@ import '@oddcamp/cocoon-vanilla-js'
 window.gon = gon;
 import './channels/questions'
 import './channels/answers'
-// import './channels/comments'
+import './channels/comments'
 import './utilities/answers'
 import './utilities/questions'
 import './utilities/reactions'
+import './utilities/comments'
 import "../assets/stylesheets/application.scss";
 
 Rails.start()

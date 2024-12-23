@@ -10,10 +10,12 @@ Rails.application.routes.draw do
   root to: 'questions#index'
 
   resources :questions do
+    resources :comments, only: %i[create destroy], defaults: { commentable: 'questions' }
     resources :answers, shallow: true, only: %i[create update destroy] do
       member do
         patch :make_best
       end
+      resources :comments, only:  %i[create destroy], defaults: { commentable: 'answers' }
     end
   end
 
