@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
-  # after_action :publish_comment, only: :create
+  after_action :publish_comment, only: :create
 
   def create
     @commentable = set_commentable
@@ -32,18 +32,26 @@ class CommentsController < ApplicationController
     params.require(:comment).permit(:body)
   end
 
-  # def publish_comment
-  #   return if @comment.errors.any?
-  #   question_id = @comment.commentable.is_a?(Question) ? @comment.commentable.id : @comment.commentable.question_id
-  #
-  #   html = ApplicationController.render(
-  #     partial: 'comments/comment',
-  #     locals: { comment: @comment, current_user: }
-  #   )
-  #
-  #   ActionCable.server.broadcast(
-  #     "questions/#{question_id}/comments",
-  #     { html:, comment_id: @comment.id, body: @comment.body, user_id: current_user.id, question_id: }
-  #   )
-  # end
+  def publish_comment
+    return if @comment.errors.any?
+
+    question_id = @comment.commentable.is_a?(Question) ? @comment.commentable.id : @comment.commentable.question_id
+
+    broadcast_comment(question_id)
+  end
+
+  def broadcast_comment(question_id)
+    html = ApplicationController.render(
+      partial: 'comments/comment',
+      locals: { comment: @comment, current_user: }
+    )
+
+    ActionCable.server.broadcast(
+      "questions/#{question_id}/comments",
+      {
+        html:, comment_id: @comment.id, body: @comment.body, user_id: current_user.id, question_id:,
+        commentable_type: @comment.commentable_type, commentable_id: @comment.commentable.id
+      }
+    )
+  end
 end

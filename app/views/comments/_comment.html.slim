@@ -7,7 +7,7 @@ div id="comment_#{comment.id}"
         p.text-muted.mt-2
           = comment.body
 
-    - if user_signed_in? && comment.author == current_user
+    - if comment.author == current_user
       .ms-auto.d-inline-flex.align-items-center
         p.m-2 = link_to 'Delete comment',
                 comment.commentable_type == 'Question' ? question_comment_path(comment.commentable, comment.id) : comment_path(comment.id),

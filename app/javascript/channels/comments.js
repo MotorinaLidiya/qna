@@ -9,10 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (questionId) {
         consumer.subscriptions.create({ channel: "CommentsChannel", question_id: questionId }, {
             received(data) {
-                const commentHTML = data.html
-                const comments = document.querySelector('.comments')
-                if (comments) {
-                    comments.insertAdjacentHTML('beforeend', commentHTML)
+                const { html, commentable_type, commentable_id } = data
+                const commentsContainer = document.querySelector(`.comments[data-commentable-id="${commentable_id}"]`)
+
+                if (commentsContainer) {
+                    commentsContainer.insertAdjacentHTML("beforeend", html)
                 }
             }
         })
