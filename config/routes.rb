@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     patch :dislike, on: :collection
   end
 
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
   root to: 'questions#index'
 
