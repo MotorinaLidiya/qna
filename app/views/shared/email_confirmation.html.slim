@@ -1,0 +1,7 @@
+h2 Confirm your email
+
+= form_with url: confirm_email_path, method: :post do |f|
+  = f.label :email, 'Email'
+  = f.email_field :email
+
+  = f.submit 'Confirm Email', class: 'btn btn-primary'

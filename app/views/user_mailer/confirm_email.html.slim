@@ -1,0 +1,7 @@
+h2 Hello, #{@user.email}!
+
+p To confirm your email address, please click the link below:
+
+= button_to 'Confirm email', @confirmation_url
+
+p If you did not sign up for this account, feel free to ignore this email.

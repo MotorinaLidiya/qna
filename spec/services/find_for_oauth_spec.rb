@@ -3,64 +3,62 @@ require 'rails_helper'
 RSpec.describe FindForOauthService do
   let!(:user) { create(:user) }
   let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }
-  subject { FindForOauthService.new(auth) }
 
-  context 'user already has authorization' do
-    it 'returns the user' do
-      user.authorizations.create(provider: 'facebook', uid: '123456')
-      expect(subject.call).to eq user
+  describe '.call' do
+    context 'when user already exists' do
+      context 'with matching email' do
+        let(:email) { user.email }
+        subject { FindForOauthService.new(auth, email) }
+
+        it 'returns existing user by email' do
+          expect(subject.call).to eq user
+        end
+      end
+
+      context 'with existing authorization' do
+        subject { FindForOauthService.new(auth, 'facebook@email.com') }
+
+        it 'returns user with existing authorization' do
+          user.authorizations.create(provider: 'facebook', uid: '123456')
+
+          expect(subject.call).to eq user
+        end
+      end
+
+      context 'without authorization' do
+        context 'user exists by email' do
+          let(:email) { user.email }
+          subject { FindForOauthService.new(auth, email) }
+
+          it 'does not create a new user' do
+            expect { subject.call }.to_not change(User, :count)
+          end
+
+          it 'creates authorization for the existing user' do
+            expect { subject.call }.to change(user.authorizations, :count).by(1)
+          end
+
+          it 'returns the existing user' do
+            expect(subject.call).to eq user
+          end
+        end
+      end
     end
-  end
 
-  context 'user has not authorization' do
-    context 'user has already exist' do
-      let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: user.email }) }
-      it 'does not create new user' do
-        expect { subject.call }.to_not change(User, :count)
+    context 'when user does not exist' do
+      subject { FindForOauthService.new(auth, 'facebook@mail.ru') }
+
+      it 'creates a new user' do
+        expect { subject.call }.to change(User, :count).by(1)
       end
 
-      it 'creates authorization for user' do
-        expect { subject.call }.to change(user.authorizations, :count).by(1)
+      it 'creates authorization for the new user' do
+        expect { subject.call }.to change(Authorization, :count).by(1)
+        expect(subject.call.email).to eq 'facebook@mail.ru'
       end
 
-      it 'creates authorization with provider and uid' do
-        authorization = subject.call.authorizations.first
-
-        expect(authorization.provider).to eq auth.provider
-        expect(authorization.uid).to eq auth.uid
-      end
-
-      it 'returns the user' do
-        expect(subject.call).to eq user
-      end
-    end
-
-    context 'user does not exist' do
-      let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: 'new@user.com' }) }
-
-      it 'creates new user' do
-        expect { subject.call }
-      end
-
-      it 'returns new user' do
-        expect(subject.call).to be_a(User)
-      end
-
-      it 'fills user email' do
-        user = subject.call
-        expect(user.email).to eq auth.info[:email]
-      end
-
-      it 'creates authorization for user' do
-        user = subject.call
-        expect(user.authorizations).to_not be_empty
-      end
-
-      it 'creates authorization with provider and uid' do
-        authorization = subject.call.authorizations.first
-
-        expect(authorization.provider).to eq auth.provider
-        expect(authorization.uid).to eq auth.uid
+      it 'returns the new user' do
+        expect(subject.call).to eq User.find_by(email: 'facebook@mail.ru')
       end
     end
   end

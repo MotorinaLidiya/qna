@@ -1,11 +1,19 @@
 Rails.application.routes.draw do
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 
   resources :reactions, only: [] do
     patch :like, on: :collection
     patch :dislike, on: :collection
   end
 
-  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
+  devise_for :users, controllers: {
+    confirmations: 'users/confirmations',
+    omniauth_callbacks: 'oauth_callbacks'
+  }
+
+  devise_scope :user do
+    post 'users/email_confirmation', to: 'oauth_callbacks#confirm_email', as: :confirm_email
+  end
 
   root to: 'questions#index'
 
