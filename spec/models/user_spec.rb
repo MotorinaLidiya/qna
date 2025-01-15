@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   it { should validate_presence_of :email }
+  it { should allow_value('test@example.com').for(:email) }
+  it { should_not allow_value('invalid_email').for(:email) }
+
   it { should validate_presence_of :password }
   it { should have_many(:authorizations).dependent(:destroy) }
 
@@ -12,7 +15,7 @@ RSpec.describe User, type: :model do
     let(:service) { double('Services::FindForOauth') }
 
     it 'calls Services::FindForOauth' do
-      expect(FindForOauthService).to receive(:new).with(auth, email).and_return(service)
+      expect(FindOrCreateForOauthService).to receive(:new).with(auth, email).and_return(service)
       expect(service).to receive(:call)
       User.find_for_oauth(auth, email)
     end

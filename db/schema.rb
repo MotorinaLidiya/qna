@@ -57,8 +57,8 @@ ActiveRecord::Schema.define(version: 2025_01_09_200353) do
 
   create_table "authorizations", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "provider"
-    t.string "uid"
+    t.string "provider", null: false
+    t.string "uid", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["provider", "uid"], name: "index_authorizations_on_provider_and_uid", unique: true

@@ -22,7 +22,7 @@ RSpec.feature 'User signs in with vkontakte' do
         fill_in 'Email', with: 'vkontakte-confirm@gmail.com'
         click_on 'Confirm Email'
 
-        expect(page).to have_content 'Email has been sent to vkontakte-confirm@gmail.com for confirmation'
+        expect(page).to have_content 'Email has been sent to vkontakte-confirm@gmail.com'
 
         user = User.find_by(email: 'vkontakte-confirm@gmail.com')
         user.send_confirmation_instructions

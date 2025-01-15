@@ -23,11 +23,10 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
     uid = session[:uid]
     provider = session[:provider]
 
-    return unless valid_email?(email)
+    user = find_or_create_user(email)
+    user.authorizations.create(provider:, uid: uid.to_s) if user.save && provider && uid
 
-    user = User.find_by(email:) || User.create_user(email)
-    user.authorizations.create!(provider:, uid: uid.to_s) if user && provider && uid
-    confirm_message(user)
+    redirect_to user_session_path, notice: user.confirmed? ? 'You can log in' : "Email has been sent to #{user.email}"
   end
 
   private
@@ -51,15 +50,8 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
     @email = @auth.info[:email] || Authorization.find_by(provider: @auth.provider, uid: @auth.uid.to_s)&.user&.email
   end
 
-  def valid_email?(email)
-    email.present? && email.match?(URI::MailTo::EMAIL_REGEXP)
-  end
-
-  def confirm_message(user)
-    if user.confirmed?
-      redirect_to user_session_path, notice: 'You can log in'
-    else
-      redirect_to user_session_path, notice: "Email has been sent to #{user.email} for confirmation"
-    end
+  def find_or_create_user(email)
+    password = Devise.friendly_token[0, 20]
+    User.find_by(email: email) || User.new(email: email, password: password, password_confirmation: password)
   end
 end

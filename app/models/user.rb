@@ -15,6 +15,8 @@ class User < ApplicationRecord
   has_many :reactions, dependent: :nullify
   has_many :authorizations, dependent: :destroy
 
+  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+
   def give_reward(question)
     return if rewards.exists?(question.reward.id)
 
@@ -22,15 +24,10 @@ class User < ApplicationRecord
   end
 
   def self.find_for_oauth(auth, email)
-    FindForOauthService.new(auth, email).call
+    FindOrCreateForOauthService.new(auth, email).call
   end
 
   def create_authorization(auth)
     authorizations.create!(provider: auth.provider, uid: auth.uid)
-  end
-
-  def self.create_user(email)
-    password = Devise.friendly_token[0, 20]
-    User.create!(email:, password:, password_confirmation: password)
   end
 end
