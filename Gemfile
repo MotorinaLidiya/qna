@@ -78,11 +78,11 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
+  gem 'email_spec'
   gem 'rubocop-rails', require: false
   gem 'selenium-webdriver'
 
   gem 'launchy'
   gem 'rails-controller-testing'
-  gem 'email_spec'
   gem 'shoulda-matchers'
 end
