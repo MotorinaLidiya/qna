@@ -23,8 +23,8 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
     uid = session[:uid]
     provider = session[:provider]
 
-    user = find_or_create_user(email)
-    user.authorizations.create(provider:, uid: uid.to_s) if user.save && provider && uid
+    user = User.find_or_create(email)
+    user.authorizations.create(provider:, uid: uid.to_s) if user.persisted?
 
     redirect_to user_session_path, notice: user.confirmed? ? 'You can log in' : "Email has been sent to #{user.email}"
   end
@@ -48,10 +48,5 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
 
   def set_email
     @email = @auth.info[:email] || Authorization.find_by(provider: @auth.provider, uid: @auth.uid.to_s)&.user&.email
-  end
-
-  def find_or_create_user(email)
-    password = Devise.friendly_token[0, 20]
-    User.find_by(email: email) || User.new(email: email, password: password, password_confirmation: password)
   end
 end

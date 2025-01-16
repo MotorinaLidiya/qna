@@ -30,4 +30,11 @@ class User < ApplicationRecord
   def create_authorization(auth)
     authorizations.create!(provider: auth.provider, uid: auth.uid)
   end
+
+  def self.find_or_create(email)
+    password = password_confirmation = Devise.friendly_token[0, 20]
+    user = find_by(email:) || new(email:, password:, password_confirmation:)
+    user.save if user.new_record?
+    user
+  end
 end
