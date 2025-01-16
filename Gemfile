@@ -83,5 +83,6 @@ group :test do
 
   gem 'launchy'
   gem 'rails-controller-testing'
+  gem 'email_spec'
   gem 'shoulda-matchers'
 end
