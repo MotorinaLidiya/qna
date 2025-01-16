@@ -14,7 +14,13 @@ feature 'User can sign up', '
       fill_in 'Password confirmation', with: '123123'
       click_on 'Sign up'
 
-      expect(page).to have_content 'Welcome! You have signed up successfully.'
+      email = ActionMailer::Base.deliveries.last
+      expect(email).to_not be_nil
+
+      confirmation_link = email.body.to_s.match(/href="([^"]+)"/)[1]
+      visit confirmation_link
+
+      expect(page).to have_content 'Your email address has been successfully confirmed'
     end
 
     scenario 'tries to sign up with wrong data' do

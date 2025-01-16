@@ -32,3 +32,41 @@ plugin :tmp_restart
 # Specify the PID file. Defaults to tmp/pids/server.pid in development.
 # In other environments, only set the PID file if requested.
 pidfile ENV["PIDFILE"] if ENV["PIDFILE"]
+
+# Add SSL support for development
+if Rails.env.development?
+  # Auto-generate SSL certificates if they don't exist
+  certs_path = Rails.root.join('config', 'certs')
+  key_path = certs_path.join('localhost.key')
+  cert_path = certs_path.join('localhost.cert')
+
+  unless File.exist?(key_path) && File.exist?(cert_path)
+    require 'openssl'
+
+    def generate_root_cert(root_key)
+      root_ca = OpenSSL::X509::Certificate.new
+      root_ca.version = 2 # "v3" certificate
+      root_ca.serial = 0x0
+      root_ca.subject = OpenSSL::X509::Name.parse "/C=BE/O=A1/OU=A/CN=localhost"
+      root_ca.issuer = root_ca.subject # Self-signed
+      root_ca.public_key = root_key.public_key
+      root_ca.not_before = Time.now
+      root_ca.not_after = root_ca.not_before + 2 * 365 * 24 * 60 * 60 # 2 years validity
+      root_ca.sign(root_key, OpenSSL::Digest::SHA256.new)
+      root_ca
+    end
+
+    # Generate key and certificate
+    root_key = OpenSSL::PKey::RSA.new(2048)
+    File.write(key_path, root_key.to_pem)
+
+    root_cert = generate_root_cert(root_key)
+    File.write(cert_path, root_cert.to_pem)
+  end
+
+  # Bind HTTPS on port 443 or 8443
+  ssl_bind '0.0.0.0', '443', {
+    key: key_path.to_s,
+    cert: cert_path.to_s
+  }
+end
