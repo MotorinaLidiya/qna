@@ -5,7 +5,7 @@ div id="question#{@question.id}"
   = render 'shared/link', resource: @question
   = render 'shared/reactions', resource: @question
 
-  - if user_signed_in? && @question.author == current_user
+  - if can?(:update, @question)
     p = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id:  @question.id }
 
     div id="question-edit-errors_#{@question.id}"
@@ -35,7 +35,7 @@ div id="question#{@question.id}"
       = f.submit 'Submit Question'
 
   .comments.ms-5.mb-5[data-commentable-id="#{@question.id}"]
-    - if user_signed_in?
+    - if can?(:create, Comment)
       p = link_to 'Add Comment', '#', class: 'add-comment-link btn btn-outline-primary mx-5', data: { commentable_id:  @question.id }
 
       .comment-form-container.d-none[data-commentable-id=@question.id]

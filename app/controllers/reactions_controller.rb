@@ -1,6 +1,8 @@
 class ReactionsController < ActionController::API
   before_action :authenticate_user!
 
+  authorize_resource
+
   def like
     reaction_action(value: 1)
   end
@@ -8,6 +10,8 @@ class ReactionsController < ActionController::API
   def dislike
     reaction_action(value: -1)
   end
+
+  private
 
   def reaction_action(value:)
     set_reactionable
@@ -24,8 +28,6 @@ class ReactionsController < ActionController::API
 
     render json: { rating: @reactionable.reaction_rating }
   end
-
-  private
 
   def set_reactionable
     @reactionable = params[:reactionable_type].constantize.find(params[:reactionable_id])

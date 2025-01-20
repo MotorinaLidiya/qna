@@ -2,7 +2,7 @@
   .reactions-rating
     span.text-decoration-underline
       p Rating:  #{resource.reaction_rating}
-  - if current_user && resource.author != current_user
+  - if can?(:like, resource) || can?(:dislike, resource)
     - user_reaction = resource.reactions.find_by(user: current_user)
     .d-inline-flex
       = button_to 'Like', like_reactions_path(reactionable_type: resource.class.name, reactionable_id: resource.id), local: false, remote: true, method: :patch, class: "btn #{user_reaction&.like? ? 'btn-success' : 'btn-outline-success'} like-btn mx-3"

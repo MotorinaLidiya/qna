@@ -2,6 +2,8 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   after_action :publish_answer, only: :create
 
+  authorize_resource
+
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.create(author: current_user, **answer_params)
@@ -16,7 +18,8 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    answer.destroy if answer.author == current_user
+    authorize! :destroy, answer
+    @answer.destroy
   end
 
   def make_best
@@ -42,7 +45,13 @@ class AnswersController < ApplicationController
   def publish_answer
     return if @answer.errors.any?
 
-    html = ApplicationController.render(
+    renderer = ApplicationController.renderer.tap do |default_renderer|
+      default_env = default_renderer.instance_variable_get(:@env)
+      env_with_warden = default_env.merge('warden' => request.env['warden'])
+      default_renderer.instance_variable_set(:@env, env_with_warden)
+    end
+
+    html = renderer.render(
       partial: 'answers/answer',
       locals: { answer: @answer, current_user: }
     )

@@ -132,8 +132,8 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'redirects to index with alert' do
         delete :destroy, params: { id: question }
-        expect(response).to redirect_to question_path
-        expect(flash[:alert]).to eq 'You have no rights to perform this action.'
+        expect(response).to redirect_to root_path
+        expect(flash[:alert]).to eq 'You are not authorized to access this page.'
       end
     end
   end
