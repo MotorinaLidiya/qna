@@ -2,6 +2,8 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   after_action :publish_question, only: :create
 
+  authorize_resource
+
   def index
     @questions = Question.includes(:author, :answers)
   end
@@ -40,12 +42,9 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if question.author == current_user
-      question.destroy
-      redirect_to questions_path, notice: 'Question was successfully deleted.'
-    else
-      redirect_to question_path, alert: 'You have no rights to perform this action.'
-    end
+    authorize! :destroy, question
+    @question.destroy
+    redirect_to questions_path, notice: 'Question was successfully deleted.'
   end
 
   private
