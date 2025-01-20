@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Ability, type: :model  do
+RSpec.describe Ability, type: :model do
   subject(:ability) { Ability.new(user) }
 
   describe 'for guest' do

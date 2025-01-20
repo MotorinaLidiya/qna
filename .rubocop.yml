@@ -49,8 +49,11 @@ Metrics/BlockLength:
     - 'spec/features/**/*_spec.rb'
     - 'spec/services/**/*_spec.rb'
     - 'spec/*_helper.rb'
+    - 'spec/models/**/*_spec.rb'
 
 Metrics/AbcSize:
   Enabled: true
   Exclude:
     - 'app/controllers/oauth_callbacks_controller.rb'
+    - 'app/models/ability.rb'
+    - 'app/controllers/answers_controller.rb'
