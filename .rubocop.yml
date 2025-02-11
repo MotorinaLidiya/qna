@@ -50,6 +50,12 @@ Metrics/BlockLength:
     - 'spec/services/**/*_spec.rb'
     - 'spec/*_helper.rb'
     - 'spec/models/**/*_spec.rb'
+    - 'spec/api/v1/**/*_spec.rb'
+
+Naming/MemoizedInstanceVariableName:
+  Enabled: true
+  Exclude:
+    - 'app/controllers/api/v1/*_controller.rb'
 
 Metrics/AbcSize:
   Enabled: true

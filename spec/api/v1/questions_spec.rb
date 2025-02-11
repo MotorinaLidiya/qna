@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Questions API', type: :request do
-  let(:headers) { { "CONTENT_TYPE" => "application/json", "ACCEPT" => 'application/json' } }
+  let(:headers) { { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' } }
   let(:access_token) { create(:access_token) }
   let!(:questions) { create_list(:question, 2) }
   let(:question) { questions.first }
@@ -15,7 +15,7 @@ describe 'Questions API', type: :request do
 
     context 'authorized' do
       let(:question_response) { json['questions'].first }
-      let!(:answers) { create_list(:answer, 3, question: ) }
+      let!(:answers) { create_list(:answer, 3, question:) }
 
       before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
@@ -28,7 +28,7 @@ describe 'Questions API', type: :request do
       end
 
       it 'contains user question' do
-         expect(question_response['author_id']).to eq question.author_id
+        expect(question_response['author_id']).to eq question.author_id
       end
 
       describe 'answers' do

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Answers API', type: :request do
-  let(:headers) { { "CONTENT_TYPE" => "application/json", "ACCEPT" => 'application/json' } }
+  let(:headers) { { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' } }
   let(:access_token) { create(:access_token) }
   let!(:question) { create(:question) }
   let!(:answers) { create_list(:answer, 3, question: question) }

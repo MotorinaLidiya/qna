@@ -4,6 +4,6 @@ module ApiHelpers
   end
 
   def do_request(method, path, params: {}, headers: {})
-    send method, path, params: , headers:
+    send method, path, params:, headers:
   end
 end
