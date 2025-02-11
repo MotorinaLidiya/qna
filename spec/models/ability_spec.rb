@@ -86,5 +86,9 @@ RSpec.describe Ability, type: :model do
         expect(ability).not_to be_able_to(:manage, :session)
       end
     end
+
+    describe 'users' do
+      it { should be_able_to :me, User }
+    end
   end
 end

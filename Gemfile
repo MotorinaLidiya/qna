@@ -30,6 +30,9 @@ gem 'active_storage_validations'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 gem 'devise'
+# OAuth 2 provider
+gem 'doorkeeper'
+
 gem 'slim-rails'
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
@@ -57,6 +60,10 @@ gem 'omniauth-vkontakte'
 
 # authorization library
 gem 'cancancan'
+
+gem 'active_model_serializers', '~> 0.10'
+gem 'oj', '~> 3.13'
+gem 'concurrent-ruby', '1.3.4'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -88,4 +95,5 @@ group :test do
   gem 'launchy'
   gem 'rails-controller-testing'
   gem 'shoulda-matchers'
+  gem 'json_spec'
 end

@@ -1,12 +1,18 @@
-# frozen_string_literal: true
-
 class Ability
   include CanCan::Ability
   attr_reader :user
 
   def initialize(user)
     @user = user
-    user ? user_abilities : guest_abilities
+    if user
+      user.admin? ? admin_abilities : user_abilities
+    else
+      guest_abilities
+    end
+  end
+
+  def admin_abilities
+    can :manage, :all
   end
 
   def guest_abilities
@@ -32,5 +38,7 @@ class Ability
     can(:destroy, Link) { |link| link.linkable.author_id == user.id }
 
     can :manage, :session if user.present?
+
+    can :me, User, id: user.id
   end
 end
