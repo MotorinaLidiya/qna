@@ -16,11 +16,12 @@ class Ability
   end
 
   def guest_abilities
-    can :read, [Question]
+    can :read, [Question, Answer, User]
+    can :answers, Question
   end
 
   def user_abilities
-    can :read, [Question, Answer, Comment]
+    can :read, [Question, Answer, Comment, User]
 
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer], author_id: user.id
@@ -40,5 +41,8 @@ class Ability
     can :manage, :session if user.present?
 
     can :me, User, id: user.id
+    can :index, User
+
+    can :answers, Question
   end
 end

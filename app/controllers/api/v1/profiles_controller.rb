@@ -1,5 +1,5 @@
 class Api::V1::ProfilesController < Api::V1::BaseController
-  #authorize_resource class: User
+  authorize_resource class: User
 
   def index
     @profiles = User.where.not(id: current_resource_owner.id)
