@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       end
       resources :comments, only:  %i[create destroy], defaults: { commentable: 'answers' }
     end
+    resource :subscription, only: %i[create destroy], controller: 'question_subscriptions'
   end
 
   resources :users, only: [] do
