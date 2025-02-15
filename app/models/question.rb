@@ -15,17 +15,4 @@ class Question < ApplicationRecord
 
   validates :title, presence: true, length: { maximum: 50 }
   validates :body, presence: true, length: { maximum: 300 }
-
-  after_create :calculate_reputation
-  after_create :subscribe_author
-
-  private
-
-  def calculate_reputation
-    ReputationJob.perform_later(self)
-  end
-
-  def subscribe_author
-    question_subscriptions.create(user: author)
-  end
 end
