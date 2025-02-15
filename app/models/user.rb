@@ -14,8 +14,6 @@ class User < ApplicationRecord
   has_many :rewards, dependent: :nullify
   has_many :reactions, dependent: :nullify
   has_many :authorizations, dependent: :destroy
-  has_many :question_subscriptions, dependent: :destroy
-  has_many :subscribed_questions, through: :question_subscriptions, source: :question
 
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
@@ -38,17 +36,5 @@ class User < ApplicationRecord
     user = find_by(email:) || new(email:, password:, password_confirmation:)
     user.save if user.new_record?
     user
-  end
-
-  def subscribed_to?(question)
-    question_subscriptions.exists?(question: question)
-  end
-
-  def subscribe(question)
-    question_subscriptions.create(question: question) unless subscribed_to?(question)
-  end
-
-  def unsubscribe(question)
-    question_subscriptions.find_by(question: question)&.destroy
   end
 end

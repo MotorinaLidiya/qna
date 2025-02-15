@@ -6,8 +6,6 @@ class Question < ApplicationRecord
 
   has_many :answers, dependent: :destroy
   has_many_attached :files
-  has_many :question_subscriptions, dependent: :destroy
-  has_many :subscribers, through: :question_subscriptions, source: :user
 
   has_one :reward, dependent: :nullify
 
@@ -15,4 +13,12 @@ class Question < ApplicationRecord
 
   validates :title, presence: true, length: { maximum: 50 }
   validates :body, presence: true, length: { maximum: 300 }
+
+  after_create :calculate_reputation
+
+  private
+
+  def calculate_reputation
+    ReputationJob.perform_later(self)
+  end
 end
