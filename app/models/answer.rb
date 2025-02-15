@@ -12,8 +12,6 @@ class Answer < ApplicationRecord
 
   scope :sort_by_best, -> { order(best: :desc, created_at: :asc) }
 
-  after_create :notify_subscribers
-
   def mark_as_best
     transaction do
       # rubocop:disable Rails/SkipsModelValidations
@@ -23,9 +21,5 @@ class Answer < ApplicationRecord
     end
 
     author.give_reward(question) if question.reward
-  end
-
-  def notify_subscribers
-    QuestionSubscriptionJob.perform_later(question)
   end
 end

@@ -19,8 +19,6 @@ RSpec.describe Ability, type: :model do
     let(:other_answer) { create(:answer, author: other, question: other_question) }
     let(:comment) { create(:comment, author: user, commentable: question) }
     let(:other_comment) { create(:comment, author: other, commentable: question) }
-    let(:own_subscription) { create(:question_subscription, user: user, question: question) }
-    let(:other_subscription) { create(:question_subscription, user: other, question: question) }
 
     it { should_not be_able_to :manage, :all }
 
@@ -89,12 +87,8 @@ RSpec.describe Ability, type: :model do
       end
     end
 
-    context 'users' do
+    describe 'users' do
       it { should be_able_to :me, User }
-    end
-
-    context 'for question subscription' do
-      it { should be_able_to %i[create destroy], QuestionSubscription, user }
     end
   end
 end

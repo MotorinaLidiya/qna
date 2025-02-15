@@ -1,6 +1,7 @@
 class DailyDigestMailer < ApplicationMailer
+
   def digest(user)
-    @greeting = 'Hi'
+    @greeting = "Hi"
 
     mail to: user.email
   end

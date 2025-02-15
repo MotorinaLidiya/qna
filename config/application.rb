@@ -20,7 +20,6 @@ module Qna
     #
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
-    config.active_job.queue_adapter = :sidekiq
     config.autoload_paths << Rails.root.join('app', 'services')
     config.time_zone = "Moscow"
     # config.eager_load_paths << Rails.root.join("extras")
