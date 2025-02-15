@@ -1,4 +1,11 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  authenticate :user, lambda {|u| u.admin?} do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
+  use_doorkeeper
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 
   resources :reactions, only: [] do
@@ -25,6 +32,7 @@ Rails.application.routes.draw do
       end
       resources :comments, only:  %i[create destroy], defaults: { commentable: 'answers' }
     end
+    resource :subscription, only: %i[create destroy], controller: 'question_subscriptions'
   end
 
   resources :users, only: [] do
@@ -34,6 +42,19 @@ Rails.application.routes.draw do
   end
 
   resources :attachments, only: :destroy
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: :index do
+        get :me, on: :collection
+      end
+
+      resources :questions, except: %i[new edit] do
+        get :answers, on: :member
+        resources :answers, shallow: true, only: %i[show create update destroy]
+      end
+    end
+  end
 
   mount ActionCable.server => '/cable'
 end
