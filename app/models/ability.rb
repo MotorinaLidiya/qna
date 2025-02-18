@@ -44,5 +44,8 @@ class Ability
     can :index, User
 
     can :answers, Question
+
+    can :create, QuestionSubscription, user_id: user.id
+    can :destroy, QuestionSubscription, user_id: user.id
   end
 end
