@@ -63,3 +63,4 @@ Metrics/AbcSize:
     - 'app/controllers/oauth_callbacks_controller.rb'
     - 'app/models/ability.rb'
     - 'app/controllers/answers_controller.rb'
+    - 'app/helpers/comments_helper.rb'

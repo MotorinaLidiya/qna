@@ -1,0 +1,8 @@
+.container
+  .row
+    .col-12.d-flex.justify-content-end
+      = form_with url: search_path, method: :get, local: true do |form|
+        .input-group
+          = form.text_field :query, placeholder: "Введите запрос..", class: "form-control"
+          = form.select :scope, options_for_select([['Все', nil], %w[Вопросы questions], %w[Ответы answers], %w[Комментарии comments], %w[Пользователи users]])
+          = form.submit "Поиск", class: "btn btn-primary"

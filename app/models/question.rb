@@ -3,6 +3,8 @@ class Question < ApplicationRecord
   include Linkable
   include Reactionable
   include Commentable
+  include OpenSearch::Model
+  include OpenSearch::Model::Callbacks
 
   has_many :answers, dependent: :destroy
   has_many_attached :files
@@ -15,4 +17,8 @@ class Question < ApplicationRecord
 
   validates :title, presence: true, length: { maximum: 50 }
   validates :body, presence: true, length: { maximum: 300 }
+
+  def as_indexed_json(_options = {})
+    as_json(only: %i[id body title]).merge(author_email: author.email)
+  end
 end
