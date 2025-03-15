@@ -30,8 +30,4 @@ class Answer < ApplicationRecord
   def notify_subscribers
     QuestionSubscriptionJob.perform_later(question)
   end
-
-  def as_indexed_json(_options = {})
-    as_json(only: %i[id body]).merge(author_email: author.email)
-  end
 end

@@ -7,9 +7,9 @@ class SearchService
   }.freeze
 
   FIELDS = {
-    'Question' => %w[title body author_email],
-    'Answer' => %w[body author_email],
-    'Comment' => %w[body author_email],
+    'Question' => %w[title body],
+    'Answer' => %w[body],
+    'Comment' => %w[body],
     'User' => %w[email]
   }.freeze
 
