@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  include OpenSearch::Model
+  include OpenSearch::Model::Callbacks
+
   devise :database_authenticatable,
          :registerable,
          :recoverable,

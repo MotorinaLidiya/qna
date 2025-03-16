@@ -1,0 +1,8 @@
+h3 Результаты поиска
+- if @results.any?
+  ul
+    - @results.each do |result|
+      b = "#{result.class.name}:"
+      li = render "search/#{result.class.name.downcase}", result:
+- else
+  p Ничего не найдено.

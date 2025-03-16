@@ -32,9 +32,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     end
   end
 
-  def destroy
-    @question.destroy
-  end
+  delegate :destroy, to: :@question
 
   private
 

@@ -1,5 +1,7 @@
 class Comment < ApplicationRecord
   include Authorable
+  include OpenSearch::Model
+  include OpenSearch::Model::Callbacks
 
   belongs_to :commentable, polymorphic: true
 

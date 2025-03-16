@@ -65,6 +65,10 @@ gem 'active_model_serializers', '~> 0.10'
 gem 'concurrent-ruby', '1.3.4'
 gem 'oj', '~> 3.13'
 
+gem 'database_cleaner-active_record'
+gem 'opensearch-model', github: 'compliance-innovations/opensearch-rails'
+gem 'opensearch-rails', github: 'compliance-innovations/opensearch-rails'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mswin mswin64 mingw x64_mingw], require: 'debug/prelude'

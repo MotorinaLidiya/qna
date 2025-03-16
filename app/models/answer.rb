@@ -3,6 +3,8 @@ class Answer < ApplicationRecord
   include Linkable
   include Reactionable
   include Commentable
+  include OpenSearch::Model
+  include OpenSearch::Model::Callbacks
 
   belongs_to :question
 

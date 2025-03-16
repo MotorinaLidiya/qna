@@ -3,6 +3,8 @@ class Question < ApplicationRecord
   include Linkable
   include Reactionable
   include Commentable
+  include OpenSearch::Model
+  include OpenSearch::Model::Callbacks
 
   has_many :answers, dependent: :destroy
   has_many_attached :files
