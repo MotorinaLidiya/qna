@@ -10,11 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     $('form').on('ajax:success', (event) => {
         const form = event.currentTarget
+        const formId = $(form).attr('id')
+        const commentableId = formId.split('-')[1]
         const commentErrors = document.querySelector('.comment-errors')
 
         if (!commentErrors || commentErrors.children.length === 0) {
-            $(form).closest('.comment-form-container').addClass('d-none')
-            $('.add-comment-link').removeClass('d-none')
+            $(`.comment-form-container[data-commentable-id="${commentableId}"]`).addClass('d-none')
+            $(`.add-comment-link[data-commentable-id="${commentableId}"]`).removeClass('d-none')
         }
     })
 })

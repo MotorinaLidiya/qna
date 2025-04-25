@@ -6,6 +6,7 @@
   - elsif can?(:create, QuestionSubscription.new(user: current_user, question: @question))
     = button_to 'Subscribe', question_subscription_path(@question), method: :post, class: 'btn btn-success'
 
+  p
   .answers.ms-5.mb-4
     - @answers.each do |answer|
       = render answer

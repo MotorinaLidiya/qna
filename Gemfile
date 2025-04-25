@@ -14,9 +14,8 @@ gem 'turbo-rails'
 gem 'stimulus-rails'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
-# Use Redis adapter to run Action Cable in production
-# gem "redis", ">= 4.0.1"
 
+gem 'sidekiq'
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
@@ -69,8 +68,8 @@ gem 'database_cleaner-active_record'
 gem 'opensearch-model', github: 'compliance-innovations/opensearch-rails'
 gem 'opensearch-rails', github: 'compliance-innovations/opensearch-rails'
 
-gem 'ed25519', '~> 1.2'
 gem 'bcrypt_pbkdf', '~> 1.0'
+gem 'ed25519', '~> 1.2'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -87,14 +86,21 @@ group :development, :test do
   gem 'letter_opener_web'
 end
 
+group :production do
+  # Use Redis adapter to run Action Cable in production
+  gem 'redis', '~> 4.8'
+end
+
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
-  gem 'web-console'
   gem 'capistrano', require: false
+  gem 'capistrano3-puma', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rbenv', require: false
-  gem 'capistrano-passenger', require: false
+  gem 'capistrano-sidekiq', require: false
+  gem 'capistrano-yarn', require: false
+  gem 'web-console'
 end
 
 group :test do
