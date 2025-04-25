@@ -39,6 +39,7 @@ div id="answer_#{answer.id}"
 
   .comments.ms-5.mb-5[data-commentable-id="#{answer.id}"]
     - if can?(:create, Comment)
+      p
       p = link_to 'Add Comment', '#', class: 'add-comment-link btn btn-outline-primary mx-5', data: { commentable_id: answer.id }
 
       .comment-form-container.d-none[data-commentable-id=answer.id]

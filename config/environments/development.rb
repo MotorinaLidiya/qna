@@ -41,9 +41,19 @@ Rails.application.configure do
   # caching is enabled.
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :tls => true,
+    address: 'smtp.yandex.ru',
+    port: 465,
+    domain: 'yandex.ru',
+    authentication: 'plain',
+    user_name: ENV['YANDEX_EMAIL'],
+    password: ENV['PASSWORD']
+  }
+  #config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = { host: 'localhost', protocol: 'https' }
+  config.action_mailer.default_url_options = { host: 'localhost' }
   config.action_mailer.perform_deliveries = true
 
   # Print deprecation notices to the Rails logger.

@@ -9,7 +9,7 @@ RSpec.describe QuestionSubscriptionMailer, type: :mailer do
   it 'renders the headers' do
     expect(mail.subject).to eq("New Answer for #{question.title}")
     expect(mail.to).to eq([user.email])
-    expect(mail.from).to eq(['no-reply@qna.com'])
+    expect(mail.from).to eq([ENV.fetch('YANDEX_EMAIL')])
   end
 
   it 'renders the body' do

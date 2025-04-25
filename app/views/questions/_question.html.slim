@@ -36,9 +36,10 @@ div id="question#{@question.id}"
 
   .comments.ms-5.mb-5[data-commentable-id="#{@question.id}"]
     - if can?(:create, Comment)
+      p
       p = link_to 'Add Comment', '#', class: 'add-comment-link btn btn-outline-primary mx-5', data: { commentable_id:  @question.id }
 
-      .comment-form-container.d-none[data-commentable-id=@question.id]
+      .comment-form-container.d-none[data-commentable-id="#{@question.id}"]
         = render 'comments/form', resource: @question
 
     - @question.comments.each do |comment|
