@@ -3,7 +3,7 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server '91.197.98.7', user: 'deployer', roles: %w[app db web], primary: true
+server ENV.fetch('SERVER_IP'), user: 'deployer', roles: %w[app db web], primary: true
 set :rails_env, :production
 
 # Custom SSH Options
@@ -15,7 +15,7 @@ set :rails_env, :production
 # Global options
 # --------------
 set :ssh_options, {
-  keys: %w[/Users/lida/.ssh/id_rsa],
+  keys: [ENV.fetch('SSH_PRIVATE_KEY_PATH')],
   forward_agent: true,
   auth_methods: %w[publickey password],
   port: 2222
