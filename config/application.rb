@@ -22,6 +22,7 @@ module Qna
     # in config/environments, which are processed later.
     config.autoload_paths << Rails.root.join('app', 'services')
     config.time_zone = "Moscow"
+    config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 90.minutes }
     # config.eager_load_paths << Rails.root.join("extras")
     config.generators do |g|
       g.test_framework :rspec,

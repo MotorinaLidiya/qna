@@ -3,7 +3,7 @@ class Comment < ApplicationRecord
   include OpenSearch::Model
   include OpenSearch::Model::Callbacks
 
-  belongs_to :commentable, polymorphic: true
+  belongs_to :commentable, polymorphic: true, touch: true
 
   validates :body, presence: true, length: { maximum: 300 }
 end
