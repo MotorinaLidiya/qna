@@ -6,7 +6,7 @@ class Answer < ApplicationRecord
   include OpenSearch::Model
   include OpenSearch::Model::Callbacks
 
-  belongs_to :question
+  belongs_to :question, touch: true
 
   has_many_attached :files
 
